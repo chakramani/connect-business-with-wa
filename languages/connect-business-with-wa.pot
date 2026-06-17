@@ -1,0 +1,1063 @@
+# Copyright (C) 2024 Robodesk
+# This file is distributed under the GNU General Public License v2 or later.
+# https://www.gnu.org/licenses/gpl-2.0.html
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Connect Business with WA 1.2.0\n"
+"Report-Msgid-Bugs-To: https://robodesk.io\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: xgettext\n"
+"X-Domain: connect-business-with-wa\n"
+
+#: admin/class-wai-admin.php:59 admin/class-wai-admin.php:60
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-wai-admin.php:68
+msgid "Inbox"
+msgstr ""
+
+#: admin/class-wai-admin.php:69
+msgid "💬 Inbox"
+msgstr ""
+
+#: admin/class-wai-admin.php:77 admin/class-wai-admin.php:78
+#: admin/class-wai-admin.php:180 admin/views/dashboard.php:76
+#: admin/views/send.php:63
+msgid "Send Message"
+msgstr ""
+
+#: admin/class-wai-admin.php:86 admin/views/bot.php:72
+msgid "WhatsApp Bot"
+msgstr ""
+
+#: admin/class-wai-admin.php:87
+msgid "🤖 Bot"
+msgstr ""
+
+#: admin/class-wai-admin.php:95 admin/class-wai-admin.php:96
+#: admin/views/bot-conversations.php:9
+msgid "Bot Conversations"
+msgstr ""
+
+#: admin/class-wai-admin.php:104 admin/class-wai-admin.php:105
+#: admin/views/log.php:7
+msgid "Message Log"
+msgstr ""
+
+#: admin/class-wai-admin.php:113 admin/class-wai-admin.php:114
+msgid "Settings"
+msgstr ""
+
+#: admin/class-wai-admin.php:122
+msgid "Webhook"
+msgstr ""
+
+#: admin/class-wai-admin.php:123
+msgid "⚡ Webhook"
+msgstr ""
+
+#: admin/class-wai-admin.php:131 admin/class-wai-admin.php:132
+#: admin/views/webhook-log.php:7
+msgid "Webhook Log"
+msgstr ""
+
+#: admin/class-wai-admin.php:179
+msgid "Sending…"
+msgstr ""
+
+#: admin/class-wai-admin.php:181
+msgid "Testing…"
+msgstr ""
+
+#: admin/class-wai-admin.php:182 admin/views/settings.php:143
+msgid "Test Connection"
+msgstr ""
+
+#: admin/class-wai-admin.php:183
+msgid "Message sent!"
+msgstr ""
+
+#: admin/class-wai-admin.php:184
+msgid "Please fill in all fields."
+msgstr ""
+
+#: admin/class-wai-admin.php:252 admin/class-wai-admin.php:275
+#: admin/class-wai-admin.php:323 admin/class-wai-admin.php:352
+msgid "Unauthorized."
+msgstr ""
+
+#: admin/class-wai-admin.php:259
+msgid "Recipient and message are required."
+msgstr ""
+
+#: admin/class-wai-admin.php:268
+msgid "Message sent successfully!"
+msgstr ""
+
+#: admin/class-wai-admin.php:282
+msgid "No message ID provided."
+msgstr ""
+
+#: admin/class-wai-admin.php:298
+msgid "Message ID not found in local log."
+msgstr ""
+
+#: admin/class-wai-admin.php:328 admin/class-wai-admin.php:410
+#: admin/class-wai-admin.php:426 admin/class-wai-admin.php:442
+msgid "Please save your API credentials first."
+msgstr ""
+
+#: admin/class-wai-admin.php:336
+msgid "Connection successful! Credentials are valid."
+msgstr ""
+
+#: admin/class-wai-admin.php:384
+msgid "Webhook endpoint is working correctly! ✅"
+msgstr ""
+
+#. translators: 1: HTTP status code, 2: Response body.
+#: admin/class-wai-admin.php:391
+#, php-format
+msgid "Unexpected response. HTTP %1$s — Body: %2$s"
+msgstr ""
+
+#: admin/class-wai-admin.php:406
+msgid "PIN must be exactly 6 digits."
+msgstr ""
+
+#: admin/class-wai-admin.php:416
+msgid "Phone number registered successfully! ✅"
+msgstr ""
+
+#: admin/class-wai-admin.php:432
+msgid "Phone number deregistered."
+msgstr ""
+
+#: admin/views/bot-conversations.php:10
+msgid "All incoming messages and bot auto-replies."
+msgstr ""
+
+#: admin/views/bot-conversations.php:17 admin/views/inbox.php:24
+msgid "No conversations yet."
+msgstr ""
+
+#: admin/views/bot-conversations.php:18
+msgid ""
+"Once your bot is enabled and webhook is configured, conversations will "
+"appear here."
+msgstr ""
+
+#: admin/views/bot-conversations.php:20
+msgid "Go to Bot Settings"
+msgstr ""
+
+#. translators: %d: Number of conversations.
+#: admin/views/bot-conversations.php:28
+#, php-format
+msgid "%d conversations"
+msgstr ""
+
+#: admin/views/bot-conversations.php:44 admin/views/bot.php:162
+msgid "From"
+msgstr ""
+
+#: admin/views/bot-conversations.php:45
+msgid "Incoming Message"
+msgstr ""
+
+#: admin/views/bot-conversations.php:46
+msgid "Bot Reply"
+msgstr ""
+
+#: admin/views/bot-conversations.php:47
+msgid "Replied"
+msgstr ""
+
+#: admin/views/bot-conversations.php:48 admin/views/dashboard.php:97
+#: admin/views/log.php:39
+msgid "Date"
+msgstr ""
+
+#: admin/views/bot-conversations.php:68
+msgid "Yes"
+msgstr ""
+
+#: admin/views/bot-conversations.php:70 admin/views/dashboard.php:44
+msgid "Failed"
+msgstr ""
+
+#: admin/views/bot.php:14
+msgid "Bot settings saved!"
+msgstr ""
+
+#: admin/views/bot.php:27
+msgid "Rule updated!"
+msgstr ""
+
+#: admin/views/bot.php:30
+msgid "Rule added!"
+msgstr ""
+
+#: admin/views/bot.php:40
+msgid "Rule deleted."
+msgstr ""
+
+#: admin/views/bot.php:73
+msgid "Auto-reply to incoming messages using keyword rules."
+msgstr ""
+
+#: admin/views/bot.php:76
+msgid "Bot ON"
+msgstr ""
+
+#: admin/views/bot.php:76
+msgid "Bot OFF"
+msgstr ""
+
+#: admin/views/bot.php:84
+msgid "Total Conversations"
+msgstr ""
+
+#: admin/views/bot.php:88
+msgid "Unique Users"
+msgstr ""
+
+#: admin/views/bot.php:92
+msgid "Active Rules"
+msgstr ""
+
+#: admin/views/bot.php:96
+msgid "Auto Replies Sent"
+msgstr ""
+
+#: admin/views/bot.php:105
+msgid "Bot Settings"
+msgstr ""
+
+#: admin/views/bot.php:112
+msgid "Enable Bot"
+msgstr ""
+
+#: admin/views/bot.php:118
+msgid "Auto-reply to incoming messages"
+msgstr ""
+
+#: admin/views/bot.php:123
+msgid "Fallback Reply"
+msgstr ""
+
+#: admin/views/bot.php:129
+msgid "Send when no rule matches"
+msgstr ""
+
+#: admin/views/bot.php:132
+msgid "Sorry, I didn't understand that. Type HELP for assistance."
+msgstr ""
+
+#: admin/views/bot.php:138
+msgid "Greeting Message"
+msgstr ""
+
+#: admin/views/bot.php:144
+msgid "Send on first message from new user"
+msgstr ""
+
+#: admin/views/bot.php:147
+msgid "Hello! Welcome to {site_name}. How can I help you today?"
+msgstr ""
+
+#: admin/views/bot.php:153
+msgid "Working Hours"
+msgstr ""
+
+#: admin/views/bot.php:159
+msgid "Only reply during working hours"
+msgstr ""
+
+#: admin/views/bot.php:164 admin/views/dashboard.php:62
+msgid "To"
+msgstr ""
+
+#: admin/views/bot.php:169
+msgid ""
+"We are currently offline. Our working hours are 9 AM to 5 PM. We'll reply "
+"soon!"
+msgstr ""
+
+#: admin/views/bot.php:171
+msgid "Message sent outside working hours."
+msgstr ""
+
+#: admin/views/bot.php:177
+msgid "Save Bot Settings"
+msgstr ""
+
+#: admin/views/bot.php:184
+msgid "Available Variables"
+msgstr ""
+
+#: admin/views/bot.php:186
+msgid "Customer's message text"
+msgstr ""
+
+#: admin/views/bot.php:187
+msgid "Your WordPress site name"
+msgstr ""
+
+#: admin/views/bot.php:188
+msgid "Your site URL"
+msgstr ""
+
+#: admin/views/bot.php:189
+msgid "Current date"
+msgstr ""
+
+#: admin/views/bot.php:190
+msgid "Current time"
+msgstr ""
+
+#: admin/views/bot.php:191
+msgid "User's message count in session"
+msgstr ""
+
+#: admin/views/bot.php:200
+msgid "Edit Rule"
+msgstr ""
+
+#: admin/views/bot.php:200 admin/views/bot.php:247
+msgid "Add Rule"
+msgstr ""
+
+#: admin/views/bot.php:208
+msgid "Keyword / Trigger"
+msgstr ""
+
+#: admin/views/bot.php:212
+msgid "e.g. hello, help, price"
+msgstr ""
+
+#: admin/views/bot.php:216
+msgid "Match Type"
+msgstr ""
+
+#: admin/views/bot.php:221
+msgid "Contains keyword"
+msgstr ""
+
+#: admin/views/bot.php:222
+msgid "Exact match"
+msgstr ""
+
+#: admin/views/bot.php:223
+msgid "Starts with keyword"
+msgstr ""
+
+#: admin/views/bot.php:224
+msgid "Regular expression"
+msgstr ""
+
+#: admin/views/bot.php:235
+msgid "Auto-Reply Message"
+msgstr ""
+
+#: admin/views/bot.php:238
+msgid "Hello! Thanks for contacting {site_name}. We'll be with you shortly."
+msgstr ""
+
+#: admin/views/bot.php:240
+msgid "Use variables like {site_name}, {date} etc. from the panel on the left."
+msgstr ""
+
+#: admin/views/bot.php:247
+msgid "Update Rule"
+msgstr ""
+
+#: admin/views/bot.php:251
+msgid "Cancel"
+msgstr ""
+
+#: admin/views/bot.php:259
+msgid "Rules"
+msgstr ""
+
+#: admin/views/bot.php:262
+msgid "No rules yet. Add your first rule above."
+msgstr ""
+
+#: admin/views/bot.php:277
+msgid "Disable"
+msgstr ""
+
+#: admin/views/bot.php:277
+msgid "Enable"
+msgstr ""
+
+#: admin/views/bot.php:282
+msgid "Delete this rule?"
+msgstr ""
+
+#: admin/views/dashboard.php:7
+msgid "WhatsApp Integration"
+msgstr ""
+
+#: admin/views/dashboard.php:8
+msgid "Send WhatsApp messages from your WordPress dashboard."
+msgstr ""
+
+#. translators: %s: Settings page URL.
+#: admin/views/dashboard.php:18
+#, php-format
+msgid ""
+"⚠️ WhatsApp API is not configured. <a href=\"%s\">Go to Settings</a> to add "
+"your credentials."
+msgstr ""
+
+#: admin/views/dashboard.php:36
+msgid "Total Messages"
+msgstr ""
+
+#: admin/views/dashboard.php:40
+msgid "Sent"
+msgstr ""
+
+#: admin/views/dashboard.php:50
+msgid "Delivery Rate"
+msgstr ""
+
+#: admin/views/dashboard.php:58
+msgid "Quick Send"
+msgstr ""
+
+#: admin/views/dashboard.php:68 admin/views/log.php:35 admin/views/send.php:45
+msgid "Message"
+msgstr ""
+
+#: admin/views/dashboard.php:84
+msgid "Recent Messages"
+msgstr ""
+
+#: admin/views/dashboard.php:86
+msgid "See all →"
+msgstr ""
+
+#: admin/views/dashboard.php:90
+msgid "No messages sent yet."
+msgstr ""
+
+#: admin/views/dashboard.php:95 admin/views/log.php:34
+msgid "Recipient"
+msgstr ""
+
+#: admin/views/dashboard.php:96 admin/views/log.php:36
+msgid "Status"
+msgstr ""
+
+#: admin/views/inbox.php:9 admin/views/inbox.php:63
+msgid "WhatsApp Inbox"
+msgstr ""
+
+#: admin/views/inbox.php:10
+msgid "Two-way conversations with your contacts."
+msgstr ""
+
+#: admin/views/inbox.php:26
+msgid "Send First Message"
+msgstr ""
+
+#: admin/views/inbox.php:64
+msgid "Select a conversation from the left to start chatting."
+msgstr ""
+
+#: admin/views/inbox.php:66
+msgid "Start a New Conversation"
+msgstr ""
+
+#: admin/views/log.php:8
+msgid "Full history of outgoing messages with real-time Meta verification."
+msgstr ""
+
+#: admin/views/log.php:14
+msgid "No messages in the log yet."
+msgstr ""
+
+#. translators: %d: Number of messages shown.
+#: admin/views/log.php:22
+#, php-format
+msgid "Showing %d messages"
+msgstr ""
+
+#: admin/views/log.php:37
+msgid "Meta Verify"
+msgstr ""
+
+#: admin/views/log.php:38
+msgid "Sent By"
+msgstr ""
+
+#: admin/views/send.php:7
+msgid "Send WhatsApp Message"
+msgstr ""
+
+#: admin/views/send.php:8
+msgid "Compose and send a message to any WhatsApp number."
+msgstr ""
+
+#. translators: %s: URL to the WhatsApp Integration settings page.
+#: admin/views/send.php:18
+#, php-format
+msgid "⚠️ API not configured. <a href=\"%s\">Add your credentials</a> first."
+msgstr ""
+
+#: admin/views/send.php:33
+msgid "Recipient Number"
+msgstr ""
+
+#: admin/views/send.php:41
+msgid "Include country code in E.164 format, e.g. +977980XXXXXXX."
+msgstr ""
+
+#: admin/views/send.php:47
+msgid "Type your message here…"
+msgstr ""
+
+#: admin/views/send.php:49
+msgid "characters remaining"
+msgstr ""
+
+#: admin/views/send.php:66
+msgid "Clear"
+msgstr ""
+
+#: admin/views/send.php:72
+msgid "Tips"
+msgstr ""
+
+#: admin/views/send.php:74
+msgid "Recipient must have an active WhatsApp account."
+msgstr ""
+
+#: admin/views/send.php:75
+msgid ""
+"Free-form text messages can only be sent within a 24-hour customer-service "
+"window. Outside that window, use approved templates."
+msgstr ""
+
+#: admin/views/send.php:76
+msgid "Maximum message length is 4,096 characters."
+msgstr ""
+
+#: admin/views/settings.php:7
+msgid "WhatsApp Integration — Settings"
+msgstr ""
+
+#: admin/views/settings.php:8
+msgid "Connect your WhatsApp Business Cloud API credentials below."
+msgstr ""
+
+#: admin/views/settings.php:16
+msgid "How to get your credentials:"
+msgstr ""
+
+#: admin/views/settings.php:18
+msgid "Go to Meta for Developers → Your App → WhatsApp → API Setup."
+msgstr ""
+
+#: admin/views/settings.php:19
+msgid "Copy the Temporary (or Permanent) Access Token."
+msgstr ""
+
+#: admin/views/settings.php:20
+msgid "Copy the Phone Number ID shown on that same page."
+msgstr ""
+
+#: admin/views/settings.php:21
+msgid "Paste them below and click Save, then Test Connection."
+msgstr ""
+
+#: admin/views/settings.php:34
+msgid "Access Token"
+msgstr ""
+
+#: admin/views/settings.php:52
+msgid "Your permanent or temporary WhatsApp Cloud API Bearer token."
+msgstr ""
+
+#: admin/views/settings.php:59
+msgid "App Secret"
+msgstr ""
+
+#: admin/views/settings.php:77
+msgid "Found in Meta App Dashboard → App Settings → Basic → App Secret."
+msgstr ""
+
+#: admin/views/settings.php:82
+msgid "Phone Number ID"
+msgstr ""
+
+#: admin/views/settings.php:95
+msgid "The numeric Phone Number ID from Meta Developer Console."
+msgstr ""
+
+#: admin/views/settings.php:102
+msgid "Business / Display Name"
+msgstr ""
+
+#: admin/views/settings.php:112
+msgid "My Business"
+msgstr ""
+
+#: admin/views/settings.php:114
+msgid "Optional label for internal reference only."
+msgstr ""
+
+#: admin/views/settings.php:121
+msgid "Default Country Code"
+msgstr ""
+
+#: admin/views/settings.php:134
+msgid ""
+"Prepended when recipient number has no country code (e.g. +977 for Nepal)."
+msgstr ""
+
+#: admin/views/settings.php:141
+msgid "Save Settings"
+msgstr ""
+
+#: admin/views/settings.php:153
+msgid "Connection Status"
+msgstr ""
+
+#: admin/views/settings.php:157
+msgid "Credentials saved. Click \"Test Connection\" to verify."
+msgstr ""
+
+#: admin/views/settings.php:162
+msgid "No credentials saved yet."
+msgstr ""
+
+#: admin/views/settings.php:172
+msgid "Phone Number Status"
+msgstr ""
+
+#: admin/views/settings.php:173
+msgid ""
+"Check the current registration status of your phone number directly from "
+"Meta."
+msgstr ""
+
+#: admin/views/settings.php:176
+msgid "Check Registration Status"
+msgstr ""
+
+#: admin/views/settings.php:183
+msgid "Registration"
+msgstr ""
+
+#: admin/views/settings.php:187
+msgid "Phone Number"
+msgstr ""
+
+#: admin/views/settings.php:191
+msgid "Display Name"
+msgstr ""
+
+#: admin/views/settings.php:195
+msgid "Quality Rating"
+msgstr ""
+
+#: admin/views/settings.php:199
+msgid "Platform"
+msgstr ""
+
+#: admin/views/settings.php:203
+msgid "Throughput"
+msgstr ""
+
+#: admin/views/settings.php:207
+msgid "Account Mode"
+msgstr ""
+
+#: admin/views/settings.php:213
+msgid "View raw response"
+msgstr ""
+
+#: admin/views/settings.php:259
+msgid "Register Phone Number"
+msgstr ""
+
+#: admin/views/settings.php:260
+msgid ""
+"Before you can send messages with your real business number, you must "
+"register it with Meta's Cloud API. This is a one-time step."
+msgstr ""
+
+#: admin/views/settings.php:263
+msgid "Two-Step Verification PIN"
+msgstr ""
+
+#: admin/views/settings.php:265
+msgid ""
+"Enter a 6-digit PIN. If your number already has two-step verification "
+"enabled in WhatsApp, use that PIN. Otherwise choose any 6 digits — this will "
+"become your PIN."
+msgstr ""
+
+#: admin/views/settings.php:278
+msgid "Register Number"
+msgstr ""
+
+#: admin/views/settings.php:283
+msgid ""
+"Save your PIN somewhere safe. You'll need it if you re-register. Requests "
+"are limited to 10 per 72 hours."
+msgstr ""
+
+#: admin/views/settings.php:291
+msgid "Deregister phone number (advanced)"
+msgstr ""
+
+#: admin/views/settings.php:294
+msgid ""
+"Deregistering makes your number unusable with Cloud API until re-registered. "
+"Only do this if you need to migrate or reset."
+msgstr ""
+
+#: admin/views/settings.php:296
+msgid "Deregister Number"
+msgstr ""
+
+#: admin/views/settings.php:363
+msgid "Frontend Chat Widget"
+msgstr ""
+
+#: admin/views/settings.php:364
+msgid ""
+"Show a WhatsApp chat popup button on your website so visitors can message "
+"you directly."
+msgstr ""
+
+#: admin/views/settings.php:381
+msgid "Enable Widget"
+msgstr ""
+
+#: admin/views/settings.php:386
+msgid "Show chat widget on all frontend pages"
+msgstr ""
+
+#: admin/views/settings.php:391
+msgid "Your WhatsApp Number"
+msgstr ""
+
+#: admin/views/settings.php:399
+msgid ""
+"Your business WhatsApp number. Visitors will be directed to message this "
+"number. Include country code, no + sign (e.g. 9779803182844)."
+msgstr ""
+
+#: admin/views/settings.php:403
+msgid "Welcome Message"
+msgstr ""
+
+#: admin/views/settings.php:410
+msgid "Shown to visitors when they open the chat."
+msgstr ""
+
+#: admin/views/settings.php:414
+msgid "Default WhatsApp Message"
+msgstr ""
+
+#: admin/views/settings.php:422
+msgid "Pre-filled message sent when visitor clicks \"Start Chat on WhatsApp\"."
+msgstr ""
+
+#: admin/views/settings.php:426
+msgid "Auto Reply"
+msgstr ""
+
+#: admin/views/settings.php:434
+msgid ""
+"Automatically sent to visitor/'s WhatsApp when they start chat. Leave blank "
+"to disable."
+msgstr ""
+
+#: admin/views/settings.php:438
+msgid "Require Name"
+msgstr ""
+
+#: admin/views/settings.php:443
+msgid "Ask visitor for their name before starting chat"
+msgstr ""
+
+#: admin/views/settings.php:448
+msgid "Email Notification"
+msgstr ""
+
+#: admin/views/settings.php:453
+msgid "Send email to admin when a new message arrives"
+msgstr ""
+
+#: admin/views/settings.php:459
+msgid "Save Widget Settings"
+msgstr ""
+
+#: admin/views/webhook-log.php:8
+msgid ""
+"All incoming events received from Meta — delivery updates and incoming "
+"messages."
+msgstr ""
+
+#: admin/views/webhook-log.php:20
+msgid "Status Updates"
+msgstr ""
+
+#: admin/views/webhook-log.php:24
+msgid "Incoming Messages"
+msgstr ""
+
+#: admin/views/webhook-log.php:28
+msgid "Signature Failures"
+msgstr ""
+
+#: admin/views/webhook-log.php:37
+msgid "No webhook events received yet."
+msgstr ""
+
+#: admin/views/webhook-log.php:38
+msgid ""
+"Once you configure your webhook in Meta and send a message, events will "
+"appear here automatically."
+msgstr ""
+
+#: admin/views/webhook-log.php:40
+msgid "→ Go to Webhook Setup"
+msgstr ""
+
+#. translators: %d: Number of events.
+#: admin/views/webhook-log.php:50
+#, php-format
+msgid "%d events"
+msgstr ""
+
+#: admin/views/webhook-log.php:62
+msgid "Event Type"
+msgstr ""
+
+#: admin/views/webhook-log.php:63
+msgid "Direction"
+msgstr ""
+
+#: admin/views/webhook-log.php:64
+msgid "Summary"
+msgstr ""
+
+#: admin/views/webhook-log.php:65
+msgid "Raw Payload"
+msgstr ""
+
+#: admin/views/webhook-log.php:66
+msgid "Received"
+msgstr ""
+
+#: admin/views/webhook.php:20
+msgid "Webhook Setup"
+msgstr ""
+
+#: admin/views/webhook.php:21
+msgid "Receive real-time delivery updates (sent → delivered → read) from Meta."
+msgstr ""
+
+#: admin/views/webhook.php:27
+msgid "You are on a local server."
+msgstr ""
+
+#: admin/views/webhook.php:28
+msgid ""
+"Meta cannot reach localhost directly. Use ngrok to get a public URL, then "
+"paste it in the field below."
+msgstr ""
+
+#: admin/views/webhook.php:30
+msgid "Quick ngrok command:"
+msgstr ""
+
+#: admin/views/webhook.php:32
+msgid "(replace 10003 with your Local site port)"
+msgstr ""
+
+#: admin/views/webhook.php:38
+msgid "Step 1 — Verify Token"
+msgstr ""
+
+#: admin/views/webhook.php:39
+msgid ""
+"This token proves to Meta that your site owns this webhook. Generate one, "
+"copy it, and keep it safe."
+msgstr ""
+
+#: admin/views/webhook.php:49
+msgid "Click Generate to create a token"
+msgstr ""
+
+#: admin/views/webhook.php:52 admin/views/webhook.php:96
+msgid "Copy"
+msgstr ""
+
+#: admin/views/webhook.php:55
+msgid "Generate New"
+msgstr ""
+
+#: admin/views/webhook.php:61
+msgid "No token yet. Click \"Generate New\" to create one."
+msgstr ""
+
+#: admin/views/webhook.php:65
+msgid "Token is set. Copy it and paste it into Meta's \"Verify token\" field."
+msgstr ""
+
+#: admin/views/webhook.php:73
+msgid "Test Token Now"
+msgstr ""
+
+#: admin/views/webhook.php:79
+msgid "Manual browser test"
+msgstr ""
+
+#: admin/views/webhook.php:80
+msgid ""
+"Open the URL below in your browser. If it shows \"TEST123\", your webhook is "
+"working correctly."
+msgstr ""
+
+#: admin/views/webhook.php:83
+msgid "Copy Test URL"
+msgstr ""
+
+#: admin/views/webhook.php:90
+msgid "Step 2 — Callback URL"
+msgstr ""
+
+#: admin/views/webhook.php:91
+msgid ""
+"This is the URL Meta will send events to. Copy it and paste it into Meta's "
+"\"Callback URL\" field."
+msgstr ""
+
+#: admin/views/webhook.php:101
+msgid "Using your custom URL."
+msgstr ""
+
+#: admin/views/webhook.php:103
+msgid "Using auto-detected WordPress REST API URL."
+msgstr ""
+
+#: admin/views/webhook.php:117
+msgid "Override with a custom URL (e.g. ngrok)"
+msgstr ""
+
+#: admin/views/webhook.php:127
+msgid "Leave blank to use the auto-detected URL."
+msgstr ""
+
+#: admin/views/webhook.php:128
+msgid "Save Custom URL"
+msgstr ""
+
+#: admin/views/webhook.php:136
+msgid "Step 3 — Paste into Meta & Verify"
+msgstr ""
+
+#: admin/views/webhook.php:138
+msgid "Go to"
+msgstr ""
+
+#: admin/views/webhook.php:138
+msgid "Your App → WhatsApp → Configuration"
+msgstr ""
+
+#: admin/views/webhook.php:139
+msgid "Click \"Edit\" next to Webhook"
+msgstr ""
+
+#: admin/views/webhook.php:140
+msgid "Paste the Callback URL from Step 2"
+msgstr ""
+
+#: admin/views/webhook.php:141
+msgid "Paste the Verify Token from Step 1"
+msgstr ""
+
+#: admin/views/webhook.php:142
+msgid ""
+"Click \"Verify and Save\" — Meta will ping your webhook and confirm it "
+"responds correctly"
+msgstr ""
+
+#: admin/views/webhook.php:143
+msgid "Click \"Manage\" → enable the"
+msgstr ""
+
+#: admin/views/webhook.php:143
+msgid "field ✅"
+msgstr ""
+
+#: admin/views/webhook.php:148
+msgid "Callback URL"
+msgstr ""
+
+#: admin/views/webhook.php:152
+msgid "Verify Token"
+msgstr ""
+
+#: admin/views/webhook.php:160
+msgid "What Happens After Setup"
+msgstr ""
+
+#: admin/views/webhook.php:164
+msgid "You send message"
+msgstr ""
+
+#: admin/views/webhook.php:170
+msgid "Reaches device"
+msgstr ""
+
+#: admin/views/webhook.php:176
+msgid "Recipient reads it"
+msgstr ""
+
+#: admin/views/webhook.php:182
+msgid "WordPress updates"
+msgstr ""
+
+#: admin/views/webhook.php:183
+msgid "Message Log updated"
+msgstr ""
+
+#: admin/views/webhook.php:188
+msgid "View Webhook Log"
+msgstr ""
+
+#: admin/views/webhook.php:245
+msgid ""
+"Generate a new token? You will need to update Meta with the new token before "
+"clicking Verify and Save again."
+msgstr ""
+
+#: includes/class-wai-api.php:87 includes/class-wai-api.php:108
+#: includes/class-wai-api.php:135 includes/class-wai-api.php:164
+#: includes/class-wai-api.php:186 includes/class-wai-api.php:214
+msgid "Unknown API error."
+msgstr ""
+
+#: includes/class-wai-messenger.php:20
+msgid "WhatsApp API is not configured."
+msgstr ""
