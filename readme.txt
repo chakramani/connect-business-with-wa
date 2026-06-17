@@ -1,4 +1,4 @@
-=== Connect Business with WA - Messaging and customer service in WordPress ===
+=== Connect Business with WA - Messaging and customer support in WordPress ===
 Contributors: chakramanijoshi
 Donate link: https://www.paypal.com/donate/?hosted_button_id=LCDCS2KW3Z6PL
 Tags: messaging, cloud api, chat widget, customer support

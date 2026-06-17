@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Connect Business with WA - Messaging and customer service in WordPress
+ * Plugin Name: Connect Business with WA - Messaging and customer support in WordPress
  * Plugin URI:  https://github.com/chakramani/connect-business-with-wa.git
  * Description: Send and receive WhatsApp Business API messages directly from your WordPress dashboard.
  * Version:           1.0.0
