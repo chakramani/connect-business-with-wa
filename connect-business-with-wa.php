@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Connect Business with WA
+ * Plugin Name: Connect Business with WA - Messaging and customer service in WordPress
  * Plugin URI:  https://github.com/chakramani/connect-business-with-wa.git
  * Description: Send and receive WhatsApp Business API messages directly from your WordPress dashboard.
  * Version:           1.0.0
@@ -15,15 +15,15 @@
  * WC tested up to:   7.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
-define( 'WAI_VERSION',     '1.2.0' );
-define( 'WAI_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
-define( 'WAI_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
-define( 'WAI_OPTION_KEY',  'wai_settings' );
-define( 'WAI_LOG_OPTION',  'wai_message_log' );
+define('WAI_VERSION', '1.2.0');
+define('WAI_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('WAI_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('WAI_OPTION_KEY', 'wai_settings');
+define('WAI_LOG_OPTION', 'wai_message_log');
 
 require_once WAI_PLUGIN_DIR . 'includes/class-wai-api.php';
 require_once WAI_PLUGIN_DIR . 'includes/class-wai-settings.php';
@@ -39,7 +39,8 @@ require_once WAI_PLUGIN_DIR . 'admin/class-wai-admin.php';
 /**
  * Bootstrap the plugin.
  */
-function wai_init() {
+function wai_init()
+{
     WAI_Settings::instance();
     WAI_Webhook::instance();
     WAI_Bot::instance();
@@ -52,19 +53,20 @@ function wai_init() {
     WAI_Webhook_Log::create_table();
     WAI_Bot::create_table();
 }
-add_action( 'plugins_loaded', 'wai_init' );
+add_action('plugins_loaded', 'wai_init');
 
 /**
  * Activation hook – create DB tables.
  */
-function wai_activate() {
+function wai_activate()
+{
     WAI_Log::create_table();
     WAI_Webhook_Log::create_table();
     WAI_Bot::create_table();
-    $opts = get_option( WAI_OPTION_KEY, [] );
-    if ( empty( $opts['webhook_verify_token'] ) ) {
-        $opts['webhook_verify_token'] = wp_generate_password( 24, false );
-        update_option( WAI_OPTION_KEY, $opts );
+    $opts = get_option(WAI_OPTION_KEY, []);
+    if (empty($opts['webhook_verify_token'])) {
+        $opts['webhook_verify_token'] = wp_generate_password(24, false);
+        update_option(WAI_OPTION_KEY, $opts);
     }
 }
-register_activation_hook( __FILE__, 'wai_activate' );
+register_activation_hook(__FILE__, 'wai_activate');
