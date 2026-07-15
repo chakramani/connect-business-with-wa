@@ -6,8 +6,8 @@ $contacts = WAI_Inbox::get_contacts();
 <div class="wai-page-header" style="background:linear-gradient(135deg,#075e54,#128c7e);">
     <span class="wai-logo">💬</span>
     <div>
-        <h1><?php esc_html_e( 'WhatsApp Inbox', 'connect-business-with-wa' ); ?></h1>
-        <p><?php esc_html_e( 'Two-way conversations with your contacts.', 'connect-business-with-wa' ); ?></p>
+        <h1><?php esc_html_e( 'WhatsApp Inbox', 'business-messaging-hub' ); ?></h1>
+        <p><?php esc_html_e( 'Two-way conversations with your contacts.', 'business-messaging-hub' ); ?></p>
     </div>
 </div>
 
@@ -21,9 +21,9 @@ $contacts = WAI_Inbox::get_contacts();
         <ul class="wai-contact-list" id="wai-contact-list">
         <?php if ( empty( $contacts ) ) : ?>
             <li class="wai-no-contacts">
-                <p>📭 <?php esc_html_e( 'No conversations yet.', 'connect-business-with-wa' ); ?></p>
+                <p>📭 <?php esc_html_e( 'No conversations yet.', 'business-messaging-hub' ); ?></p>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-send' ) ); ?>" class="button button-primary">
-                    ✉️ <?php esc_html_e( 'Send First Message', 'connect-business-with-wa' ); ?>
+                    ✉️ <?php esc_html_e( 'Send First Message', 'business-messaging-hub' ); ?>
                 </a>
             </li>
         <?php else :
@@ -60,10 +60,10 @@ $contacts = WAI_Inbox::get_contacts();
     <div class="wai-inbox-main" id="wai-inbox-main">
         <div class="wai-no-contact">
             <div style="font-size:4rem;opacity:.4;">💬</div>
-            <h2><?php esc_html_e( 'WhatsApp Inbox', 'connect-business-with-wa' ); ?></h2>
-            <p><?php esc_html_e( 'Select a conversation from the left to start chatting.', 'connect-business-with-wa' ); ?></p>
+            <h2><?php esc_html_e( 'WhatsApp Inbox', 'business-messaging-hub' ); ?></h2>
+            <p><?php esc_html_e( 'Select a conversation from the left to start chatting.', 'business-messaging-hub' ); ?></p>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-send' ) ); ?>" class="button button-primary">
-                ✉️ <?php esc_html_e( 'Start a New Conversation', 'connect-business-with-wa' ); ?>
+                ✉️ <?php esc_html_e( 'Start a New Conversation', 'business-messaging-hub' ); ?>
             </a>
         </div>
     </div>

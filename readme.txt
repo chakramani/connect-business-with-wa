@@ -1,4 +1,4 @@
-=== Connect Business with WA - Messaging and customer support in WordPress ===
+=== Business Messaging Hub - Chakramani ===
 Contributors: chakramanijoshi
 Donate link: https://www.paypal.com/donate/?hosted_button_id=LCDCS2KW3Z6PL
 Tags: messaging, cloud api, chat widget, customer support
@@ -13,7 +13,7 @@ Send and receive Business API messages directly from your WordPress dashboard �
 
 == Description ==
 
-Connect Business with WA connects your WordPress site to the Meta Business Cloud API so you can send and receive messages, run a keyword-based auto-reply bot, and offer visitors a frontend chat widget — all without leaving wp-admin.
+Business Messaging Hub - Chakramani connects your WordPress site to the Meta Business Cloud API so you can send and receive messages, run a keyword-based auto-reply bot, and offer visitors a frontend chat widget — all without leaving wp-admin.
 
 = Features =
 
@@ -34,7 +34,7 @@ Connect Business with WA connects your WordPress site to the Meta Business Cloud
 = Automatic Installation =
 
 1. Log in to your WordPress admin panel.
-2. Go to **Plugins → Add New** and search for **Connect Business with WA**.
+2. Go to **Plugins → Add New** and search for **Business Messaging Hub - Chakramani**.
 3. Click **Install Now**, then **Activate**.
 4. Navigate to **WA Business → Settings** and enter your API credentials.
 

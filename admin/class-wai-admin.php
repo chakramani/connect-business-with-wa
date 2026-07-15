@@ -45,8 +45,8 @@ class WAI_Admin {
 
     public function register_menus() {
         add_menu_page(
-            __( 'WhatsApp', 'connect-business-with-wa' ),
-            __( 'WhatsApp', 'connect-business-with-wa' ),
+            __( 'WhatsApp', 'business-messaging-hub' ),
+            __( 'WhatsApp', 'business-messaging-hub' ),
             'manage_options',
             'wai-dashboard',
             [ $this, 'page_dashboard' ],
@@ -56,8 +56,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Dashboard', 'connect-business-with-wa' ),
-            __( 'Dashboard', 'connect-business-with-wa' ),
+            __( 'Dashboard', 'business-messaging-hub' ),
+            __( 'Dashboard', 'business-messaging-hub' ),
             'manage_options',
             'wai-dashboard',
             [ $this, 'page_dashboard' ]
@@ -65,8 +65,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Inbox', 'connect-business-with-wa' ),
-            __( '💬 Inbox', 'connect-business-with-wa' ),
+            __( 'Inbox', 'business-messaging-hub' ),
+            __( '💬 Inbox', 'business-messaging-hub' ),
             'manage_options',
             'wai-inbox',
             [ $this, 'page_inbox' ]
@@ -74,8 +74,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Send Message', 'connect-business-with-wa' ),
-            __( 'Send Message', 'connect-business-with-wa' ),
+            __( 'Send Message', 'business-messaging-hub' ),
+            __( 'Send Message', 'business-messaging-hub' ),
             'manage_options',
             'wai-send',
             [ $this, 'page_send' ]
@@ -83,8 +83,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'WhatsApp Bot', 'connect-business-with-wa' ),
-            __( '🤖 Bot', 'connect-business-with-wa' ),
+            __( 'WhatsApp Bot', 'business-messaging-hub' ),
+            __( '🤖 Bot', 'business-messaging-hub' ),
             'manage_options',
             'wai-bot',
             [ $this, 'page_bot' ]
@@ -92,8 +92,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Bot Conversations', 'connect-business-with-wa' ),
-            __( 'Bot Conversations', 'connect-business-with-wa' ),
+            __( 'Bot Conversations', 'business-messaging-hub' ),
+            __( 'Bot Conversations', 'business-messaging-hub' ),
             'manage_options',
             'wai-bot-conversations',
             [ $this, 'page_bot_conversations' ]
@@ -101,8 +101,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Message Log', 'connect-business-with-wa' ),
-            __( 'Message Log', 'connect-business-with-wa' ),
+            __( 'Message Log', 'business-messaging-hub' ),
+            __( 'Message Log', 'business-messaging-hub' ),
             'manage_options',
             'wai-log',
             [ $this, 'page_log' ]
@@ -110,8 +110,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Settings', 'connect-business-with-wa' ),
-            __( 'Settings', 'connect-business-with-wa' ),
+            __( 'Settings', 'business-messaging-hub' ),
+            __( 'Settings', 'business-messaging-hub' ),
             'manage_options',
             'wai-settings',
             [ $this, 'page_settings' ]
@@ -119,8 +119,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Webhook', 'connect-business-with-wa' ),
-            __( '⚡ Webhook', 'connect-business-with-wa' ),
+            __( 'Webhook', 'business-messaging-hub' ),
+            __( '⚡ Webhook', 'business-messaging-hub' ),
             'manage_options',
             'wai-webhook',
             [ $this, 'page_webhook' ]
@@ -128,8 +128,8 @@ class WAI_Admin {
 
         add_submenu_page(
             'wai-dashboard',
-            __( 'Webhook Log', 'connect-business-with-wa' ),
-            __( 'Webhook Log', 'connect-business-with-wa' ),
+            __( 'Webhook Log', 'business-messaging-hub' ),
+            __( 'Webhook Log', 'business-messaging-hub' ),
             'manage_options',
             'wai-webhook-log',
             [ $this, 'page_webhook_log' ]
@@ -176,12 +176,12 @@ class WAI_Admin {
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'wai_nonce' ),
             'i18n'     => [
-                'sending'     => __( 'Sending…',          'connect-business-with-wa' ),
-                'send'        => __( 'Send Message',       'connect-business-with-wa' ),
-                'testing'     => __( 'Testing…',           'connect-business-with-wa' ),
-                'test'        => __( 'Test Connection',    'connect-business-with-wa' ),
-                'success'     => __( 'Message sent!',      'connect-business-with-wa' ),
-                'error_empty' => __( 'Please fill in all fields.', 'connect-business-with-wa' ),
+                'sending'     => __( 'Sending…',          'business-messaging-hub' ),
+                'send'        => __( 'Send Message',       'business-messaging-hub' ),
+                'testing'     => __( 'Testing…',           'business-messaging-hub' ),
+                'test'        => __( 'Test Connection',    'business-messaging-hub' ),
+                'success'     => __( 'Message sent!',      'business-messaging-hub' ),
+                'error_empty' => __( 'Please fill in all fields.', 'business-messaging-hub' ),
             ],
         ] );
     }
@@ -249,14 +249,14 @@ class WAI_Admin {
         check_ajax_referer( 'wai_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'connect-business-with-wa' ) ], 403 );
+            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
         $to      = isset( $_POST['to'] )      ? sanitize_text_field( wp_unslash( $_POST['to'] ) )      : '';
         $message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
 
         if ( ! $to || ! $message ) {
-            wp_send_json_error( [ 'message' => __( 'Recipient and message are required.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Recipient and message are required.', 'business-messaging-hub' ) ] );
         }
 
         $result = WAI_Messenger::send( $to, $message );
@@ -265,21 +265,21 @@ class WAI_Admin {
             wp_send_json_error( [ 'message' => $result->get_error_message() ] );
         }
 
-        wp_send_json_success( [ 'message' => __( 'Message sent successfully!', 'connect-business-with-wa' ) ] );
+        wp_send_json_success( [ 'message' => __( 'Message sent successfully!', 'business-messaging-hub' ) ] );
     }
 
     public function ajax_verify_message() {
         check_ajax_referer( 'wai_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'connect-business-with-wa' ) ], 403 );
+            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
         $msg_id = isset( $_POST['msg_id'] ) ? sanitize_text_field( wp_unslash( $_POST['msg_id'] ) ) : '';
         $log_id = isset( $_POST['log_id'] ) ? (int) $_POST['log_id'] : 0;
 
         if ( ! $msg_id ) {
-            wp_send_json_error( [ 'message' => __( 'No message ID provided.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'No message ID provided.', 'business-messaging-hub' ) ] );
         }
 
         // Meta Cloud API does NOT support fetching message status by wamid via GET.
@@ -294,7 +294,7 @@ class WAI_Admin {
         ) );
 
         if ( ! $log ) {
-            wp_send_json_error( [ 'message' => __( 'Message ID not found in local log.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Message ID not found in local log.', 'business-messaging-hub' ) ] );
         }
 
         $sent_by_user = get_userdata( (int) $log->sent_by );
@@ -319,12 +319,12 @@ class WAI_Admin {
         check_ajax_referer( 'wai_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'connect-business-with-wa' ) ], 403 );
+            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
         $api = WAI_Settings::api();
         if ( ! $api ) {
-            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
 
         $result = $api->verify_credentials();
@@ -332,7 +332,7 @@ class WAI_Admin {
             wp_send_json_error( [ 'message' => $result->get_error_message() ] );
         }
 
-        wp_send_json_success( [ 'message' => __( 'Connection successful! Credentials are valid.', 'connect-business-with-wa' ) ] );
+        wp_send_json_success( [ 'message' => __( 'Connection successful! Credentials are valid.', 'business-messaging-hub' ) ] );
     }
 
     public function ajax_regenerate_token() {
@@ -348,7 +348,7 @@ class WAI_Admin {
         check_ajax_referer( 'wai_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'connect-business-with-wa' ) ], 403 );
+            wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
         $webhook_url  = rest_url( 'wai/v1/webhook' );
@@ -380,14 +380,14 @@ class WAI_Admin {
         }
 
         if ( 200 === $code && $actual === $challenge ) {
-            wp_send_json_success( [ 'message' => __( 'Webhook endpoint is working correctly! ✅', 'connect-business-with-wa' ) ] );
+            wp_send_json_success( [ 'message' => __( 'Webhook endpoint is working correctly! ✅', 'business-messaging-hub' ) ] );
         } else {
             
             wp_send_json_error(
                 [
                     'message' => sprintf(
                         /* translators: 1: HTTP status code, 2: Response body. */
-                        __( 'Unexpected response. HTTP %1$s — Body: %2$s', 'connect-business-with-wa' ),
+                        __( 'Unexpected response. HTTP %1$s — Body: %2$s', 'business-messaging-hub' ),
                         $code,
                         $body
                     ),
@@ -402,17 +402,17 @@ class WAI_Admin {
         }
         $pin = isset( $_POST['pin'] ) ? sanitize_text_field( wp_unslash( $_POST['pin'] ) ) : '';
         if ( ! preg_match( '/^\d{6}$/', $pin ) ) {
-            wp_send_json_error( [ 'message' => __( 'PIN must be exactly 6 digits.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'PIN must be exactly 6 digits.', 'business-messaging-hub' ) ] );
         }
         $api = WAI_Settings::api();
         if ( ! $api ) {
-            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
         $result = $api->register_phone( $pin );
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( [ 'message' => $result->get_error_message() ] );
         }
-        wp_send_json_success( [ 'message' => __( 'Phone number registered successfully! ✅', 'connect-business-with-wa' ) ] );
+        wp_send_json_success( [ 'message' => __( 'Phone number registered successfully! ✅', 'business-messaging-hub' ) ] );
     }
 
     public function ajax_deregister_phone() {
@@ -422,13 +422,13 @@ class WAI_Admin {
         }
         $api = WAI_Settings::api();
         if ( ! $api ) {
-            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
         $result = $api->deregister_phone();
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( [ 'message' => $result->get_error_message() ] );
         }
-        wp_send_json_success( [ 'message' => __( 'Phone number deregistered.', 'connect-business-with-wa' ) ] );
+        wp_send_json_success( [ 'message' => __( 'Phone number deregistered.', 'business-messaging-hub' ) ] );
     }
 
     public function ajax_phone_status() {
@@ -438,7 +438,7 @@ class WAI_Admin {
         }
         $api = WAI_Settings::api();
         if ( ! $api ) {
-            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'connect-business-with-wa' ) ] );
+            wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
         $result = $api->get_phone_status();
         if ( is_wp_error( $result ) ) {

@@ -4,14 +4,14 @@
     <div class="wai-page-header">
         <span class="wai-logo">📋</span>
         <div>
-            <h1><?php esc_html_e( 'Message Log', 'connect-business-with-wa' ); ?></h1>
-            <p><?php esc_html_e( 'Full history of outgoing messages with real-time Meta verification.', 'connect-business-with-wa' ); ?></p>
+            <h1><?php esc_html_e( 'Message Log', 'business-messaging-hub' ); ?></h1>
+            <p><?php esc_html_e( 'Full history of outgoing messages with real-time Meta verification.', 'business-messaging-hub' ); ?></p>
         </div>
     </div>
 
     <div class="wai-card">
         <?php if ( empty( $logs ) ) : ?>
-            <p class="wai-empty"><?php esc_html_e( 'No messages in the log yet.', 'connect-business-with-wa' ); ?></p>
+            <p class="wai-empty"><?php esc_html_e( 'No messages in the log yet.', 'business-messaging-hub' ); ?></p>
         <?php else : ?>
 
             <div class="wai-log-topbar">
@@ -19,7 +19,7 @@
                     <?php
                         printf(
                             /* translators: %d: Number of messages shown. */
-                            esc_html__( 'Showing %d messages', 'connect-business-with-wa' ),
+                            esc_html__( 'Showing %d messages', 'business-messaging-hub' ),
                             count( $logs )
                         );
                     ?>
@@ -31,12 +31,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th><?php esc_html_e( 'Recipient', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Message', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Status', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Meta Verify', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Sent By', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Date', 'connect-business-with-wa' ); ?></th>
+                        <th><?php esc_html_e( 'Recipient', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Message', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Status', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Meta Verify', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Sent By', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Date', 'business-messaging-hub' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>

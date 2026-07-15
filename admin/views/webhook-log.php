@@ -4,8 +4,8 @@
     <div class="wai-page-header">
         <span class="wai-logo">⚡</span>
         <div>
-            <h1><?php esc_html_e( 'Webhook Log', 'connect-business-with-wa' ); ?></h1>
-            <p><?php esc_html_e( 'All incoming events received from Meta — delivery updates and incoming messages.', 'connect-business-with-wa' ); ?></p>
+            <h1><?php esc_html_e( 'Webhook Log', 'business-messaging-hub' ); ?></h1>
+            <p><?php esc_html_e( 'All incoming events received from Meta — delivery updates and incoming messages.', 'business-messaging-hub' ); ?></p>
         </div>
     </div>
 
@@ -17,15 +17,15 @@
     <div class="wai-stats-row" style="grid-template-columns:repeat(3,1fr)">
         <div class="wai-stat-card wai-stat-card--green">
             <div class="wai-stat-card__number"><?php echo (int) ( $stat_map['status_update'] ?? 0 ); ?></div>
-            <div class="wai-stat-card__label"><?php esc_html_e( 'Status Updates', 'connect-business-with-wa' ); ?></div>
+            <div class="wai-stat-card__label"><?php esc_html_e( 'Status Updates', 'business-messaging-hub' ); ?></div>
         </div>
         <div class="wai-stat-card wai-stat-card--blue">
             <div class="wai-stat-card__number"><?php echo (int) ( $stat_map['incoming_message'] ?? 0 ); ?></div>
-            <div class="wai-stat-card__label"><?php esc_html_e( 'Incoming Messages', 'connect-business-with-wa' ); ?></div>
+            <div class="wai-stat-card__label"><?php esc_html_e( 'Incoming Messages', 'business-messaging-hub' ); ?></div>
         </div>
         <div class="wai-stat-card wai-stat-card--red">
             <div class="wai-stat-card__number"><?php echo (int) ( $stat_map['signature_failed'] ?? 0 ); ?></div>
-            <div class="wai-stat-card__label"><?php esc_html_e( 'Signature Failures', 'connect-business-with-wa' ); ?></div>
+            <div class="wai-stat-card__label"><?php esc_html_e( 'Signature Failures', 'business-messaging-hub' ); ?></div>
         </div>
     </div>
     <?php endif; ?>
@@ -34,10 +34,10 @@
 
         <?php if ( empty( $webhook_logs ) ) : ?>
             <div class="wai-notice wai-notice--info">
-                <strong><?php esc_html_e( 'No webhook events received yet.', 'connect-business-with-wa' ); ?></strong><br>
-                <?php esc_html_e( 'Once you configure your webhook in Meta and send a message, events will appear here automatically.', 'connect-business-with-wa' ); ?>
+                <strong><?php esc_html_e( 'No webhook events received yet.', 'business-messaging-hub' ); ?></strong><br>
+                <?php esc_html_e( 'Once you configure your webhook in Meta and send a message, events will appear here automatically.', 'business-messaging-hub' ); ?>
                 <br><a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-webhook' ) ); ?>">
-                    <?php esc_html_e( '→ Go to Webhook Setup', 'connect-business-with-wa' ); ?>
+                    <?php esc_html_e( '→ Go to Webhook Setup', 'business-messaging-hub' ); ?>
                 </a>
             </div>
         <?php else : ?>
@@ -47,7 +47,7 @@
                     <?php 
                     printf(
                         /* translators: %d: Number of events. */
-                        esc_html__( '%d events', 'connect-business-with-wa' ),
+                        esc_html__( '%d events', 'business-messaging-hub' ),
                         count( $webhook_logs )
                     );
                     ?>
@@ -59,11 +59,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th><?php esc_html_e( 'Event Type', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Direction', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Summary', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Raw Payload', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Received', 'connect-business-with-wa' ); ?></th>
+                        <th><?php esc_html_e( 'Event Type', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Direction', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Summary', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Raw Payload', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Received', 'business-messaging-hub' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>

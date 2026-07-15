@@ -17,7 +17,7 @@ class WAI_Messenger {
     public static function send( $to, $message, $sent_by = 0 ) {
         $api = WAI_Settings::api();
         if ( ! $api ) {
-            return new WP_Error( 'wai_not_configured', __( 'WhatsApp API is not configured.', 'connect-business-with-wa' ) );
+            return new WP_Error( 'wai_not_configured', __( 'WhatsApp API is not configured.', 'business-messaging-hub' ) );
         }
 
         $result = $api->send_text( $to, $message );

@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Connect Business with WA 1.2.0\n"
+"Project-Id-Version: Business Messaging Hub - Chakramani 1.2.0\n"
 "Report-Msgid-Bugs-To: https://robodesk.io\n"
 "POT-Creation-Date: 2024-01-01 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "X-Generator: xgettext\n"
-"X-Domain: connect-business-with-wa\n"
+"X-Domain: business-messaging-hub\n"
 
 #: admin/class-wai-admin.php:59 admin/class-wai-admin.php:60
 msgid "Dashboard"

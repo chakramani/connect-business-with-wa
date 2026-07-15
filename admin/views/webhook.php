@@ -17,26 +17,26 @@ $test_url = $webhook_url
     <div class="wai-page-header">
         <span class="wai-logo">⚡</span>
         <div>
-            <h1><?php esc_html_e( 'Webhook Setup', 'connect-business-with-wa' ); ?></h1>
-            <p><?php esc_html_e( 'Receive real-time delivery updates (sent → delivered → read) from Meta.', 'connect-business-with-wa' ); ?></p>
+            <h1><?php esc_html_e( 'Webhook Setup', 'business-messaging-hub' ); ?></h1>
+            <p><?php esc_html_e( 'Receive real-time delivery updates (sent → delivered → read) from Meta.', 'business-messaging-hub' ); ?></p>
         </div>
     </div>
 
     <?php if ( $is_local ) : ?>
     <div class="wai-notice wai-notice--warn">
-        ⚠️ <strong><?php esc_html_e( 'You are on a local server.', 'connect-business-with-wa' ); ?></strong>
-        <?php esc_html_e( 'Meta cannot reach localhost directly. Use ngrok to get a public URL, then paste it in the field below.', 'connect-business-with-wa' ); ?>
+        ⚠️ <strong><?php esc_html_e( 'You are on a local server.', 'business-messaging-hub' ); ?></strong>
+        <?php esc_html_e( 'Meta cannot reach localhost directly. Use ngrok to get a public URL, then paste it in the field below.', 'business-messaging-hub' ); ?>
         <br><br>
-        <strong><?php esc_html_e( 'Quick ngrok command:', 'connect-business-with-wa' ); ?></strong>
+        <strong><?php esc_html_e( 'Quick ngrok command:', 'business-messaging-hub' ); ?></strong>
         <code class="wai-inline-code">ngrok http 10003</code>
-        <?php esc_html_e( '(replace 10003 with your Local site port)', 'connect-business-with-wa' ); ?>
+        <?php esc_html_e( '(replace 10003 with your Local site port)', 'business-messaging-hub' ); ?>
     </div>
     <?php endif; ?>
 
     <!-- ===================== STEP 1 — Verify Token ===================== -->
     <div class="wai-card">
-        <h2>🔑 <?php esc_html_e( 'Step 1 — Verify Token', 'connect-business-with-wa' ); ?></h2>
-        <p><?php esc_html_e( 'This token proves to Meta that your site owns this webhook. Generate one, copy it, and keep it safe.', 'connect-business-with-wa' ); ?></p>
+        <h2>🔑 <?php esc_html_e( 'Step 1 — Verify Token', 'business-messaging-hub' ); ?></h2>
+        <p><?php esc_html_e( 'This token proves to Meta that your site owns this webhook. Generate one, copy it, and keep it safe.', 'business-messaging-hub' ); ?></p>
 
         <div class="wai-token-box">
             <div class="wai-copy-row">
@@ -46,23 +46,23 @@ $test_url = $webhook_url
                     value="<?php echo esc_attr( $verify_token ); ?>"
                     class="regular-text wai-token-input"
                     readonly
-                    placeholder="<?php esc_attr_e( 'Click Generate to create a token', 'connect-business-with-wa' ); ?>"
+                    placeholder="<?php esc_attr_e( 'Click Generate to create a token', 'business-messaging-hub' ); ?>"
                 />
                 <button type="button" class="button wai-copy-btn" data-target="wai-verify-token-display">
-                    📋 <?php esc_html_e( 'Copy', 'connect-business-with-wa' ); ?>
+                    📋 <?php esc_html_e( 'Copy', 'business-messaging-hub' ); ?>
                 </button>
                 <button type="button" id="wai-regen-token" class="button button-secondary">
-                    🔄 <?php esc_html_e( 'Generate New', 'connect-business-with-wa' ); ?>
+                    🔄 <?php esc_html_e( 'Generate New', 'business-messaging-hub' ); ?>
                 </button>
             </div>
 
             <?php if ( empty( $verify_token ) ) : ?>
                 <p class="wai-token-hint wai-token-hint--warn">
-                    ⚠️ <?php esc_html_e( 'No token yet. Click "Generate New" to create one.', 'connect-business-with-wa' ); ?>
+                    ⚠️ <?php esc_html_e( 'No token yet. Click "Generate New" to create one.', 'business-messaging-hub' ); ?>
                 </p>
             <?php else : ?>
                 <p class="wai-token-hint">
-                    ✅ <?php esc_html_e( 'Token is set. Copy it and paste it into Meta\'s "Verify token" field.', 'connect-business-with-wa' ); ?>
+                    ✅ <?php esc_html_e( 'Token is set. Copy it and paste it into Meta\'s "Verify token" field.', 'business-messaging-hub' ); ?>
                 </p>
             <?php endif; ?>
         </div>
@@ -70,37 +70,37 @@ $test_url = $webhook_url
         <!-- Live test inside this card -->
         <div class="wai-token-test-row">
             <button type="button" id="wai-test-webhook" class="button button-primary">
-                🧪 <?php esc_html_e( 'Test Token Now', 'connect-business-with-wa' ); ?>
+                🧪 <?php esc_html_e( 'Test Token Now', 'business-messaging-hub' ); ?>
             </button>
             <span id="wai-webhook-test-result" class="wai-inline-result"></span>
         </div>
 
         <details class="wai-manual-test">
-            <summary><?php esc_html_e( 'Manual browser test', 'connect-business-with-wa' ); ?></summary>
-            <p><?php esc_html_e( 'Open the URL below in your browser. If it shows "TEST123", your webhook is working correctly.', 'connect-business-with-wa' ); ?></p>
+            <summary><?php esc_html_e( 'Manual browser test', 'business-messaging-hub' ); ?></summary>
+            <p><?php esc_html_e( 'Open the URL below in your browser. If it shows "TEST123", your webhook is working correctly.', 'business-messaging-hub' ); ?></p>
             <code class="wai-url-preview" id="wai-manual-test-url"><?php echo esc_html( $test_url ); ?></code>
             <button type="button" class="button wai-copy-btn" data-target="wai-manual-test-url" style="margin-top:6px;">
-                📋 <?php esc_html_e( 'Copy Test URL', 'connect-business-with-wa' ); ?>
+                📋 <?php esc_html_e( 'Copy Test URL', 'business-messaging-hub' ); ?>
             </button>
         </details>
     </div>
 
     <!-- ===================== STEP 2 — Callback URL ===================== -->
     <div class="wai-card">
-        <h2>🔗 <?php esc_html_e( 'Step 2 — Callback URL', 'connect-business-with-wa' ); ?></h2>
-        <p><?php esc_html_e( 'This is the URL Meta will send events to. Copy it and paste it into Meta\'s "Callback URL" field.', 'connect-business-with-wa' ); ?></p>
+        <h2>🔗 <?php esc_html_e( 'Step 2 — Callback URL', 'business-messaging-hub' ); ?></h2>
+        <p><?php esc_html_e( 'This is the URL Meta will send events to. Copy it and paste it into Meta\'s "Callback URL" field.', 'business-messaging-hub' ); ?></p>
 
         <div class="wai-copy-row" style="margin-bottom:8px;">
             <input type="text" id="wai-webhook-url-display" value="<?php echo esc_attr( $webhook_url ); ?>" class="large-text" readonly />
             <button type="button" class="button wai-copy-btn" data-target="wai-webhook-url-display">
-                📋 <?php esc_html_e( 'Copy', 'connect-business-with-wa' ); ?>
+                📋 <?php esc_html_e( 'Copy', 'business-messaging-hub' ); ?>
             </button>
         </div>
 
         <?php if ( ! empty( $custom_url ) ) : ?>
-            <p class="description" style="color:var(--wai-green-dark);">✅ <?php esc_html_e( 'Using your custom URL.', 'connect-business-with-wa' ); ?></p>
+            <p class="description" style="color:var(--wai-green-dark);">✅ <?php esc_html_e( 'Using your custom URL.', 'business-messaging-hub' ); ?></p>
         <?php else : ?>
-            <p class="description"><?php esc_html_e( 'Using auto-detected WordPress REST API URL.', 'connect-business-with-wa' ); ?></p>
+            <p class="description"><?php esc_html_e( 'Using auto-detected WordPress REST API URL.', 'business-messaging-hub' ); ?></p>
         <?php endif; ?>
 
         <!-- Custom URL override -->
@@ -114,7 +114,7 @@ $test_url = $webhook_url
             <input type="hidden" name="<?php echo esc_attr( WAI_OPTION_KEY ); ?>[webhook_verify_token]" value="<?php echo esc_attr( $verify_token ); ?>" />
 
             <details class="wai-custom-url-details">
-                <summary><?php esc_html_e( 'Override with a custom URL (e.g. ngrok)', 'connect-business-with-wa' ); ?></summary>
+                <summary><?php esc_html_e( 'Override with a custom URL (e.g. ngrok)', 'business-messaging-hub' ); ?></summary>
                 <div style="margin-top:10px;">
                     <input
                         type="url"
@@ -124,8 +124,8 @@ $test_url = $webhook_url
                         class="large-text"
                         placeholder="https://abc123.ngrok-free.app/wp-json/wai/v1/webhook"
                     />
-                    <p class="description"><?php esc_html_e( 'Leave blank to use the auto-detected URL.', 'connect-business-with-wa' ); ?></p>
-                    <?php submit_button( __( 'Save Custom URL', 'connect-business-with-wa' ), 'secondary', 'submit', false ); ?>
+                    <p class="description"><?php esc_html_e( 'Leave blank to use the auto-detected URL.', 'business-messaging-hub' ); ?></p>
+                    <?php submit_button( __( 'Save Custom URL', 'business-messaging-hub' ), 'secondary', 'submit', false ); ?>
                 </div>
             </details>
         </form>
@@ -133,23 +133,23 @@ $test_url = $webhook_url
 
     <!-- ===================== STEP 3 — Meta instructions ===================== -->
     <div class="wai-card">
-        <h2>🚀 <?php esc_html_e( 'Step 3 — Paste into Meta & Verify', 'connect-business-with-wa' ); ?></h2>
+        <h2>🚀 <?php esc_html_e( 'Step 3 — Paste into Meta & Verify', 'business-messaging-hub' ); ?></h2>
         <ol class="wai-steps">
-            <li><?php esc_html_e( 'Go to', 'connect-business-with-wa' ); ?> 👉 <a href="https://developers.facebook.com/apps" target="_blank">developers.facebook.com/apps</a> → <?php esc_html_e( 'Your App → WhatsApp → Configuration', 'connect-business-with-wa' ); ?></li>
-            <li><?php esc_html_e( 'Click "Edit" next to Webhook', 'connect-business-with-wa' ); ?></li>
-            <li><?php esc_html_e( 'Paste the Callback URL from Step 2', 'connect-business-with-wa' ); ?></li>
-            <li><?php esc_html_e( 'Paste the Verify Token from Step 1', 'connect-business-with-wa' ); ?></li>
-            <li><?php esc_html_e( 'Click "Verify and Save" — Meta will ping your webhook and confirm it responds correctly', 'connect-business-with-wa' ); ?></li>
-            <li><?php esc_html_e( 'Click "Manage" → enable the', 'connect-business-with-wa' ); ?> <code>messages</code> <?php esc_html_e( 'field ✅', 'connect-business-with-wa' ); ?></li>
+            <li><?php esc_html_e( 'Go to', 'business-messaging-hub' ); ?> 👉 <a href="https://developers.facebook.com/apps" target="_blank">developers.facebook.com/apps</a> → <?php esc_html_e( 'Your App → WhatsApp → Configuration', 'business-messaging-hub' ); ?></li>
+            <li><?php esc_html_e( 'Click "Edit" next to Webhook', 'business-messaging-hub' ); ?></li>
+            <li><?php esc_html_e( 'Paste the Callback URL from Step 2', 'business-messaging-hub' ); ?></li>
+            <li><?php esc_html_e( 'Paste the Verify Token from Step 1', 'business-messaging-hub' ); ?></li>
+            <li><?php esc_html_e( 'Click "Verify and Save" — Meta will ping your webhook and confirm it responds correctly', 'business-messaging-hub' ); ?></li>
+            <li><?php esc_html_e( 'Click "Manage" → enable the', 'business-messaging-hub' ); ?> <code>messages</code> <?php esc_html_e( 'field ✅', 'business-messaging-hub' ); ?></li>
         </ol>
 
         <div class="wai-meta-summary">
             <div class="wai-meta-field">
-                <span class="wai-meta-label"><?php esc_html_e( 'Callback URL', 'connect-business-with-wa' ); ?></span>
+                <span class="wai-meta-label"><?php esc_html_e( 'Callback URL', 'business-messaging-hub' ); ?></span>
                 <code class="wai-meta-value"><?php echo esc_html( $webhook_url ); ?></code>
             </div>
             <div class="wai-meta-field">
-                <span class="wai-meta-label"><?php esc_html_e( 'Verify Token', 'connect-business-with-wa' ); ?></span>
+                <span class="wai-meta-label"><?php esc_html_e( 'Verify Token', 'business-messaging-hub' ); ?></span>
                 <code class="wai-meta-value" id="wai-meta-token-preview"><?php echo esc_html( $verify_token ?: '— not set —' ); ?></code>
             </div>
         </div>
@@ -157,35 +157,35 @@ $test_url = $webhook_url
 
     <!-- ===================== Flow ===================== -->
     <div class="wai-card">
-        <h2>✅ <?php esc_html_e( 'What Happens After Setup', 'connect-business-with-wa' ); ?></h2>
+        <h2>✅ <?php esc_html_e( 'What Happens After Setup', 'business-messaging-hub' ); ?></h2>
         <div class="wai-flow">
             <div class="wai-flow-step">
                 <div class="wai-flow-icon">📤</div>
-                <div class="wai-flow-label"><?php esc_html_e( 'You send message', 'connect-business-with-wa' ); ?></div>
+                <div class="wai-flow-label"><?php esc_html_e( 'You send message', 'business-messaging-hub' ); ?></div>
                 <div class="wai-flow-sub">Status: sent</div>
             </div>
             <div class="wai-flow-arrow">→</div>
             <div class="wai-flow-step">
                 <div class="wai-flow-icon">📱</div>
-                <div class="wai-flow-label"><?php esc_html_e( 'Reaches device', 'connect-business-with-wa' ); ?></div>
+                <div class="wai-flow-label"><?php esc_html_e( 'Reaches device', 'business-messaging-hub' ); ?></div>
                 <div class="wai-flow-sub">Status: delivered</div>
             </div>
             <div class="wai-flow-arrow">→</div>
             <div class="wai-flow-step">
                 <div class="wai-flow-icon">👀</div>
-                <div class="wai-flow-label"><?php esc_html_e( 'Recipient reads it', 'connect-business-with-wa' ); ?></div>
+                <div class="wai-flow-label"><?php esc_html_e( 'Recipient reads it', 'business-messaging-hub' ); ?></div>
                 <div class="wai-flow-sub">Status: read</div>
             </div>
             <div class="wai-flow-arrow">→</div>
             <div class="wai-flow-step wai-flow-step--highlight">
                 <div class="wai-flow-icon">🔄</div>
-                <div class="wai-flow-label"><?php esc_html_e( 'WordPress updates', 'connect-business-with-wa' ); ?></div>
-                <div class="wai-flow-sub"><?php esc_html_e( 'Message Log updated', 'connect-business-with-wa' ); ?></div>
+                <div class="wai-flow-label"><?php esc_html_e( 'WordPress updates', 'business-messaging-hub' ); ?></div>
+                <div class="wai-flow-sub"><?php esc_html_e( 'Message Log updated', 'business-messaging-hub' ); ?></div>
             </div>
         </div>
         <p style="margin-top:16px;">
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-webhook-log' ) ); ?>" class="button">
-                📋 <?php esc_html_e( 'View Webhook Log', 'connect-business-with-wa' ); ?>
+                📋 <?php esc_html_e( 'View Webhook Log', 'business-messaging-hub' ); ?>
             </a>
         </p>
     </div>
@@ -242,7 +242,7 @@ jQuery(function($){
     // ── Regenerate token ───────────────────────────────────────────────
     $('#wai-regen-token').on('click', function(){
         var $btn = $(this);
-        if ( ! confirm('<?php echo esc_js( __( 'Generate a new token? You will need to update Meta with the new token before clicking Verify and Save again.', 'connect-business-with-wa' ) ); ?>') ) return;
+        if ( ! confirm('<?php echo esc_js( __( 'Generate a new token? You will need to update Meta with the new token before clicking Verify and Save again.', 'business-messaging-hub' ) ); ?>') ) return;
         $btn.prop('disabled', true).text('⏳');
         $.post(wai.ajax_url, { action: 'wai_regenerate_token', nonce: wai.nonce })
         .done(function(res){

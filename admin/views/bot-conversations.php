@@ -6,18 +6,18 @@ $conversations = WAI_Bot::get_conversations( 100 );
     <div class="wai-page-header wai-page-header--bot">
         <span class="wai-logo">💬</span>
         <div>
-            <h1><?php esc_html_e( 'Bot Conversations', 'connect-business-with-wa' ); ?></h1>
-            <p><?php esc_html_e( 'All incoming messages and bot auto-replies.', 'connect-business-with-wa' ); ?></p>
+            <h1><?php esc_html_e( 'Bot Conversations', 'business-messaging-hub' ); ?></h1>
+            <p><?php esc_html_e( 'All incoming messages and bot auto-replies.', 'business-messaging-hub' ); ?></p>
         </div>
     </div>
 
     <div class="wai-card">
         <?php if ( empty( $conversations ) ) : ?>
             <div class="wai-notice wai-notice--info">
-                <strong><?php esc_html_e( 'No conversations yet.', 'connect-business-with-wa' ); ?></strong><br>
-                <?php esc_html_e( 'Once your bot is enabled and webhook is configured, conversations will appear here.', 'connect-business-with-wa' ); ?>
+                <strong><?php esc_html_e( 'No conversations yet.', 'business-messaging-hub' ); ?></strong><br>
+                <?php esc_html_e( 'Once your bot is enabled and webhook is configured, conversations will appear here.', 'business-messaging-hub' ); ?>
                 <br>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-bot' ) ); ?>">→ <?php esc_html_e( 'Go to Bot Settings', 'connect-business-with-wa' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=wai-bot' ) ); ?>">→ <?php esc_html_e( 'Go to Bot Settings', 'business-messaging-hub' ); ?></a>
             </div>
         <?php else : ?>
 
@@ -25,7 +25,7 @@ $conversations = WAI_Bot::get_conversations( 100 );
                 <span class="wai-log-count">
                 <?php
                     /* translators: %d: Number of conversations. */
-                    $count_text = __( '%d conversations', 'connect-business-with-wa' );
+                    $count_text = __( '%d conversations', 'business-messaging-hub' );
                     echo esc_html(
                         sprintf(
                             $count_text,
@@ -41,11 +41,11 @@ $conversations = WAI_Bot::get_conversations( 100 );
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th><?php esc_html_e( 'From', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Incoming Message', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Bot Reply', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Replied', 'connect-business-with-wa' ); ?></th>
-                        <th><?php esc_html_e( 'Date', 'connect-business-with-wa' ); ?></th>
+                        <th><?php esc_html_e( 'From', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Incoming Message', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Bot Reply', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Replied', 'business-messaging-hub' ); ?></th>
+                        <th><?php esc_html_e( 'Date', 'business-messaging-hub' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,9 +65,9 @@ $conversations = WAI_Bot::get_conversations( 100 );
                         </td>
                         <td>
                             <?php if ( $c->bot_replied ) : ?>
-                                <span class="wai-badge wai-badge--sent">✅ <?php esc_html_e( 'Yes', 'connect-business-with-wa' ); ?></span>
+                                <span class="wai-badge wai-badge--sent">✅ <?php esc_html_e( 'Yes', 'business-messaging-hub' ); ?></span>
                             <?php else : ?>
-                                <span class="wai-badge wai-badge--failed">❌ <?php esc_html_e( 'Failed', 'connect-business-with-wa' ); ?></span>
+                                <span class="wai-badge wai-badge--failed">❌ <?php esc_html_e( 'Failed', 'business-messaging-hub' ); ?></span>
                             <?php endif; ?>
                         </td>
                         <td><?php echo esc_html( $c->created_at ); ?></td>

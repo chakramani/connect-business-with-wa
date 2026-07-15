@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Connect Business with WA - Messaging and customer support in WordPress
- * Plugin URI:  https://github.com/chakramani/connect-business-with-wa.git
+ * Plugin Name: Business Messaging Hub - Chakramani
+ * Plugin URI:  https://github.com/chakramani/business-messaging-hub.git
  * Description: Send and receive WhatsApp Business API messages directly from your WordPress dashboard.
  * Version:           1.0.0
  * Requires at least: 5.8
@@ -9,7 +9,7 @@
  * Author:      Chakramani Joshi
  * Author URI:  https://chakramanijoshi.com.np/
  * License:     GPL-2.0+
- * Text Domain: connect-business-with-wa
+ * Text Domain: business-messaging-hub
  * Domain Path: /languages
  * WC requires at least: 6.0
  * WC tested up to:   7.0
