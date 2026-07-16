@@ -19,54 +19,54 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WAI_VERSION', '1.2.0');
-define('WAI_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('WAI_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('WAI_OPTION_KEY', 'wai_settings');
-define('WAI_LOG_OPTION', 'wai_message_log');
+define('WABMH_VERSION', '1.2.0');
+define('WABMH_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('WABMH_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('WABMH_OPTION_KEY', 'wabmh_settings');
+define('WABMH_LOG_OPTION', 'wabmh_message_log');
 
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-api.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-settings.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-messenger.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-log.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-webhook-log.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-webhook.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-bot.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-inbox.php';
-require_once WAI_PLUGIN_DIR . 'includes/class-wai-widget.php';
-require_once WAI_PLUGIN_DIR . 'admin/class-wai-admin.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-api.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-settings.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-messenger.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-log.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-webhook-log.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-webhook.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-bot.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-inbox.php';
+require_once WABMH_PLUGIN_DIR . 'includes/class-wabmh-widget.php';
+require_once WABMH_PLUGIN_DIR . 'admin/class-wabmh-admin.php';
 
 /**
  * Bootstrap the plugin.
  */
-function wai_init()
+function wabmh_init()
 {
-    WAI_Settings::instance();
-    WAI_Webhook::instance();
-    WAI_Bot::instance();
-    WAI_Admin::instance();
-    WAI_Widget::instance();
+    WABMH_Settings::instance();
+    WABMH_Webhook::instance();
+    WABMH_Bot::instance();
+    WABMH_Admin::instance();
+    WABMH_Widget::instance();
 
     // Ensure DB tables always exist — runs on every load so new installs
     // and plugin updates don't require a deactivate/reactivate cycle.
-    WAI_Log::create_table();
-    WAI_Webhook_Log::create_table();
-    WAI_Bot::create_table();
+    WABMH_Log::create_table();
+    WABMH_Webhook_Log::create_table();
+    WABMH_Bot::create_table();
 }
-add_action('plugins_loaded', 'wai_init');
+add_action('plugins_loaded', 'wabmh_init');
 
 /**
  * Activation hook – create DB tables.
  */
-function wai_activate()
+function wabmh_activate()
 {
-    WAI_Log::create_table();
-    WAI_Webhook_Log::create_table();
-    WAI_Bot::create_table();
-    $opts = get_option(WAI_OPTION_KEY, []);
+    WABMH_Log::create_table();
+    WABMH_Webhook_Log::create_table();
+    WABMH_Bot::create_table();
+    $opts = get_option(WABMH_OPTION_KEY, []);
     if (empty($opts['webhook_verify_token'])) {
         $opts['webhook_verify_token'] = wp_generate_password(24, false);
-        update_option(WAI_OPTION_KEY, $opts);
+        update_option(WABMH_OPTION_KEY, $opts);
     }
 }
-register_activation_hook(__FILE__, 'wai_activate');
+register_activation_hook(__FILE__, 'wabmh_activate');

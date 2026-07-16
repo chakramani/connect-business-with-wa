@@ -1,0 +1,70 @@
+/* Business Messaging Hub — Message Log page styles */
+
+.wabmh-log-topbar {
+    display:flex; justify-content:space-between;
+    align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;
+}
+.wabmh-log-count  { color:var(--wabmh-muted); font-size:.88rem; }
+.wabmh-log-search {
+    padding:6px 12px; border:1px solid var(--wabmh-border);
+    border-radius:6px; width:280px; font-size:.9rem;
+}
+.wabmh-log-search:focus { border-color:var(--wabmh-green); outline:none; }
+
+.wabmh-log-msg-cell { max-width:300px; }
+.wabmh-msg-preview  { color:var(--wabmh-text); font-size:.88rem; }
+.wabmh-msg-full-text {
+    background:#f9f9f9; border:1px solid var(--wabmh-border);
+    border-radius:6px; padding:10px 12px; font-size:.88rem;
+    white-space:pre-wrap; word-break:break-word;
+    margin-top:6px; max-height:200px; overflow-y:auto;
+}
+.wabmh-expand-btn, .wabmh-collapse-btn {
+    background:none; border:none; color:var(--wabmh-green-dark);
+    cursor:pointer; font-size:.78rem; padding:2px 4px;
+    margin-left:4px; text-decoration:underline;
+}
+.wabmh-verify-cell   { min-width:160px; }
+.wabmh-verify-result { margin-top:6px; font-size:.8rem; }
+.wabmh-msg-id-small  {
+    font-size:.7rem; color:var(--wabmh-muted);
+    word-break:break-all; margin-top:4px; max-width:160px;
+}
+.wabmh-muted       { color:var(--wabmh-muted); }
+.wabmh-verify-ok   { color:#1a7a45; font-weight:600; }
+.wabmh-verify-fail { color:var(--wabmh-red); }
+.wabmh-verify-raw  {
+    color:var(--wabmh-blue); cursor:pointer;
+    text-decoration:underline; font-size:.78rem;
+    display:block; margin-top:3px;
+}
+
+/* Modal */
+#wabmh-modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,.55);
+    z-index:99999; display:flex;
+    align-items:center; justify-content:center;
+}
+#wabmh-modal {
+    background:#fff; border-radius:10px;
+    width:700px; max-width:95vw; max-height:80vh;
+    display:flex; flex-direction:column;
+    box-shadow:0 8px 32px rgba(0,0,0,.22);
+}
+#wabmh-modal-header {
+    display:flex; justify-content:space-between;
+    align-items:center; padding:14px 20px;
+    border-bottom:1px solid var(--wabmh-border); font-size:1rem;
+}
+#wabmh-modal-close {
+    background:none; border:1px solid #ccc; border-radius:5px;
+    padding:3px 10px; font-size:.85rem; cursor:pointer; color:var(--wabmh-muted);
+}
+#wabmh-modal-close:hover { color:var(--wabmh-red); border-color:var(--wabmh-red); }
+#wabmh-modal-body {
+    padding:16px 20px; overflow-y:auto; font-size:.82rem;
+    background:#1e1e1e; color:#d4d4d4;
+    border-radius:0 0 10px 10px;
+    margin:0; white-space:pre-wrap; word-break:break-word; flex:1;
+}
+.wabmh-log-row.wabmh-hidden { display:none; }

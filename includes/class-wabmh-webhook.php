@@ -4,10 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Handles incoming WhatsApp Cloud API webhook requests from Meta.
  *
- * Webhook URL:  https://yoursite.com/wp-json/wai/v1/webhook
+ * Webhook URL:  https://yoursite.com/wp-json/wabmh/v1/webhook
  * Verify Token: Set in plugin Settings → Webhook
  */
-class WAI_Webhook {
+class WABMH_Webhook {
 
     private static $instance = null;
 
@@ -27,7 +27,16 @@ class WAI_Webhook {
     // ------------------------------------------------------------------ //
 
     public function register_routes() {
-        register_rest_route( 'wai/v1', '/webhook', [
+        // permission_callback is intentionally '__return_true' on both routes:
+        // Meta calls this endpoint anonymously and cannot supply a WP nonce or
+        // cookie, so auth cannot be done via WP's normal capability checks.
+        // Authenticity is instead enforced inside the callbacks:
+        //  - GET  (handle_verify) requires the configured verify_token to match.
+        //  - POST (handle_event)  requires a valid HMAC-SHA256 signature
+        //    (X-Hub-Signature-256, checked with hash_equals()) computed with the
+        //    app secret; requests are rejected outright if the secret is empty,
+        //    the header is missing, or the signature doesn't match.
+        register_rest_route( 'wabmh/v1', '/webhook', [
             [
                 'methods'             => WP_REST_Server::READABLE,   // GET  — Meta verification
                 'callback'            => [ $this, 'handle_verify' ],
@@ -64,9 +73,9 @@ class WAI_Webhook {
         $token     = isset( $params['hub.verify_token'] ) ? sanitize_text_field( $params['hub.verify_token'] ) : '';
         $challenge = isset( $params['hub.challenge'] )    ? sanitize_text_field( $params['hub.challenge'] )    : '';
 
-        $saved_token = WAI_Settings::get( 'webhook_verify_token' );
+        $saved_token = WABMH_Settings::get( 'webhook_verify_token' );
 
-        if ( 'subscribe' === $mode && $token === $saved_token ) {
+        if ( 'subscribe' === $mode && ! empty( $saved_token ) && hash_equals( (string) $saved_token, $token ) ) {
             // Meta requires the challenge returned as a bare plain-text string with HTTP 200.
             // - WP_REST_Response JSON-encodes strings → "TEST123" (with quotes) → Meta rejects.
             // - wp_die() wraps output in HTML → Meta rejects.
@@ -94,39 +103,96 @@ class WAI_Webhook {
             $body = file_get_contents( 'php://input' );
         }
 
-        // Optional: verify X-Hub-Signature-256
+        // Signature verification is mandatory: reject if the app secret isn't
+        // configured, if Meta didn't send a signature, or if it doesn't match.
+        // The raw, unsanitized $body is required here (and when logging a
+        // failure below) because HMAC verification must run over the exact
+        // bytes Meta signed.
         if ( ! $this->verify_signature( $body, $request->get_header( 'x_hub_signature_256' ) ) ) {
-            WAI_Webhook_Log::insert( 'signature_failed', [], $body );
+            // Intentionally raw/unsanitized: this is the one exception carved out for
+            // logging failed-signature attempts, so an admin can diff the exact bytes
+            // Meta sent against what verify_signature() computed. It is never treated
+            // as trusted data afterwards (no further processing happens on this path),
+            // and every place that later displays it (webhook-log.php) escapes it with
+            // esc_attr()/esc_html() before output. Capped defensively so a malicious
+            // sender can't bloat the log table with an oversized request body.
+            WABMH_Webhook_Log::insert( 'signature_failed', [], substr( $body, 0, 20000 ) );
             return new WP_REST_Response( 'Forbidden', 403 );
         }
 
-        $payload = json_decode( $body, true );
+        $decoded = json_decode( $body, true );
 
-        if ( empty( $payload['entry'] ) ) {
+        if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $decoded ) ) {
+            return new WP_REST_Response( 'Bad Request', 400 );
+        }
+
+        // json_decode() only parses JSON — it does NOT sanitize the values.
+        // Everything below this point must use the sanitized copy, never $decoded.
+        $payload = $this->sanitize_payload( $decoded );
+
+        if ( empty( $payload['entry'] ) || ! is_array( $payload['entry'] ) ) {
             return new WP_REST_Response( 'ok', 200 );
         }
 
         foreach ( $payload['entry'] as $entry ) {
+            if ( ! is_array( $entry ) ) {
+                continue;
+            }
             foreach ( $entry['changes'] ?? [] as $change ) {
-                $value = $change['value'] ?? [];
+                $value = is_array( $change ) ? ( $change['value'] ?? [] ) : [];
+                $value = is_array( $value ) ? $value : [];
 
                 // ---- Delivery / read status updates ----
-                if ( ! empty( $value['statuses'] ) ) {
+                if ( ! empty( $value['statuses'] ) && is_array( $value['statuses'] ) ) {
                     foreach ( $value['statuses'] as $status_obj ) {
-                        $this->process_status( $status_obj, $payload );
+                        if ( is_array( $status_obj ) ) {
+                            $this->process_status( $status_obj, $payload );
+                        }
                     }
                 }
 
                 // ---- Incoming messages (from customers) ----
-                if ( ! empty( $value['messages'] ) ) {
+                if ( ! empty( $value['messages'] ) && is_array( $value['messages'] ) ) {
                     foreach ( $value['messages'] as $msg ) {
-                        $this->process_incoming( $msg, $value['metadata'] ?? [], $payload );
+                        if ( is_array( $msg ) ) {
+                            $this->process_incoming( $msg, is_array( $value['metadata'] ?? null ) ? $value['metadata'] : [], $payload );
+                        }
                     }
                 }
             }
         }
 
         return new WP_REST_Response( 'ok', 200 );
+    }
+
+    // ------------------------------------------------------------------ //
+    //  Recursively sanitize a decoded JSON structure
+    // ------------------------------------------------------------------ //
+
+    /**
+     * json_decode() returns raw, untrusted scalars/arrays — it performs no
+     * sanitization. Recursively sanitize every string value in the decoded
+     * webhook payload before any of it is used, stored, or passed to actions.
+     *
+     * @param mixed $data Decoded JSON value (array, string, scalar, etc.).
+     * @return mixed Sanitized value of the same shape.
+     */
+    private function sanitize_payload( $data ) {
+        if ( is_array( $data ) ) {
+            $clean = [];
+            foreach ( $data as $key => $value ) {
+                $clean_key           = is_string( $key ) ? sanitize_key( $key ) : $key;
+                $clean[ $clean_key ] = $this->sanitize_payload( $value );
+            }
+            return $clean;
+        }
+
+        if ( is_string( $data ) ) {
+            return sanitize_text_field( wp_unslash( $data ) );
+        }
+
+        // Numbers, booleans, null pass through unchanged.
+        return $data;
     }
 
     // ------------------------------------------------------------------ //
@@ -141,10 +207,13 @@ class WAI_Webhook {
 
         // Capture Meta's error reason when status is failed
         $error_reason = '';
-        if ( 'failed' === $status && ! empty( $status_obj['errors'][0]['message'] ) ) {
-            $error_reason = $status_obj['errors'][0]['message'];
-            if ( ! empty( $status_obj['errors'][0]['error_data']['details'] ) ) {
-                $error_reason .= ' — ' . $status_obj['errors'][0]['error_data']['details'];
+        if ( 'failed' === $status && is_array( $status_obj['errors'] ?? null ) && is_array( $status_obj['errors'][0] ?? null ) ) {
+            $error_reason = $status_obj['errors'][0]['message'] ?? '';
+            $error_details = is_array( $status_obj['errors'][0]['error_data'] ?? null )
+                ? ( $status_obj['errors'][0]['error_data']['details'] ?? '' )
+                : '';
+            if ( $error_details ) {
+                $error_reason .= ' — ' . $error_details;
             }
         }
 
@@ -157,13 +226,23 @@ class WAI_Webhook {
         ];
         $db_status = $db_status_map[ $status ] ?? $status;
 
+        // Replay protection: Meta may re-deliver the same event on retry.
+        // Skip work we've already done for this exact wamid + status pair (a
+        // message legitimately gets one status_update event per transition
+        // -- sent, then delivered, then read -- so we key the dedup check on
+        // status too, not just the wamid, otherwise later legitimate
+        // transitions would be silently dropped).
+        if ( $wamid && WABMH_Webhook_Log::status_event_exists( $wamid, $status ) ) {
+            return;
+        }
+
         // Update the message log row that matches this wamid
         if ( $wamid ) {
-            WAI_Log::update_status_by_msg_id( $wamid, $db_status, $error_reason );
+            WABMH_Log::update_status_by_msg_id( $wamid, $db_status, $error_reason );
         }
 
         // Log the raw webhook event
-        WAI_Webhook_Log::insert( 'status_update', [
+        WABMH_Webhook_Log::insert( 'status_update', [
             'wamid'     => $wamid,
             'status'    => $status,
             'recipient' => $recipient,
@@ -171,7 +250,7 @@ class WAI_Webhook {
         ], wp_json_encode( $raw_payload ) );
 
         // Fire a WordPress action so other plugins/themes can hook in
-        do_action( 'wai_message_status_updated', $wamid, $db_status, $status_obj );
+        do_action( 'wabmh_message_status_updated', $wamid, $db_status, $status_obj );
     }
 
     // ------------------------------------------------------------------ //
@@ -192,12 +271,19 @@ class WAI_Webhook {
         } elseif ( 'audio' === $type ) {
             $text = '[Audio received]';
         } elseif ( 'document' === $type ) {
-            $text = '[Document: ' . ( $msg['document']['filename'] ?? 'file' ) . ']';
+            $doc_name = is_array( $msg['document'] ?? null ) ? ( $msg['document']['filename'] ?? 'file' ) : 'file';
+            $text     = '[Document: ' . $doc_name . ']';
         } else {
             $text = '[' . ucfirst( $type ) . ' received]';
         }
 
-        WAI_Webhook_Log::insert( 'incoming_message', [
+        // Replay protection: skip if we've already recorded this exact
+        // incoming message (Meta may re-deliver on retry).
+        if ( $wamid && WABMH_Webhook_Log::wamid_exists( $wamid, 'incoming_message' ) ) {
+            return;
+        }
+
+        WABMH_Webhook_Log::insert( 'incoming_message', [
             'wamid'     => $wamid,
             'from'      => $from,
             'type'      => $type,
@@ -206,7 +292,7 @@ class WAI_Webhook {
         ], wp_json_encode( $raw_payload ) );
 
         // Also record in Message Log so incoming messages appear alongside outgoing ones.
-        WAI_Log::insert( [
+        WABMH_Log::insert( [
             'recipient'  => $from,
             'message'    => $text,
             'status'     => 'received',
@@ -216,7 +302,7 @@ class WAI_Webhook {
         ] );
 
         // Fire action so other code can respond to incoming messages
-        do_action( 'wai_incoming_message', $from, $text, $msg, $metadata );
+        do_action( 'wabmh_incoming_message', $from, $text, $msg, $metadata );
     }
 
     // ------------------------------------------------------------------ //
@@ -224,19 +310,22 @@ class WAI_Webhook {
     // ------------------------------------------------------------------ //
 
     private function verify_signature( $body, $signature_header ) {
-        $app_secret = WAI_Settings::get( 'app_secret' );
+        $app_secret = WABMH_Settings::get( 'app_secret' );
 
-        // If no app secret configured, skip verification
+        // No app secret configured means we cannot verify authenticity —
+        // reject rather than silently trust the request.
         if ( empty( $app_secret ) ) {
-            return true;
+            return false;
         }
 
-        // If Meta didn't send a signature, skip (shouldn't happen in prod)
+        // Meta always sends X-Hub-Signature-256 when an app secret is set.
+        // A missing header is rejected rather than treated as trusted.
         if ( empty( $signature_header ) ) {
-            return true;
+            return false;
         }
 
+        // Header is "sha256=<hex>"; compare with hash_equals() to avoid timing attacks.
         $expected = 'sha256=' . hash_hmac( 'sha256', $body, $app_secret );
-        return hash_equals( $expected, $signature_header );
+        return hash_equals( $expected, (string) $signature_header );
     }
 }

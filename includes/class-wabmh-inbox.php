@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Inbox — groups all messages (sent + received) by contact phone number.
  */
-class WAI_Inbox {
+class WABMH_Inbox {
 
     public static function table_name() {
         global $wpdb;
-        return $wpdb->prefix . 'wai_message_log';
+        return $wpdb->prefix . 'wabmh_message_log';
     }
 
     /**

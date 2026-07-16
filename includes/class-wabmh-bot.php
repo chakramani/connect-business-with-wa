@@ -3,12 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * WhatsApp Bot Engine
- * Listens to wai_incoming_message and auto-replies based on rules.
+ * Listens to wabmh_incoming_message and auto-replies based on rules.
  */
-class WAI_Bot {
+class WABMH_Bot {
 
-    const RULES_OPTION    = 'wai_bot_rules';
-    const CONVOS_TABLE    = 'wai_bot_conversations';
+    const RULES_OPTION    = 'wabmh_bot_rules';
+    const CONVOS_TABLE    = 'wabmh_bot_conversations';
     const SESSION_TIMEOUT = 1800; // 30 minutes inactivity = reset session
 
     private static $instance = null;
@@ -21,7 +21,7 @@ class WAI_Bot {
     }
 
     private function __construct() {
-        add_action( 'wai_incoming_message', [ $this, 'handle_incoming' ], 10, 4 );
+        add_action( 'wabmh_incoming_message', [ $this, 'handle_incoming' ], 10, 4 );
     }
 
     // ------------------------------------------------------------------ //
@@ -42,7 +42,7 @@ class WAI_Bot {
 
         if ( $reply !== null ) {
             // Send the reply
-            $result = WAI_Messenger::send( $from, $reply, 0 );
+            $result = WABMH_Messenger::send( $from, $reply, 0 );
 
             // Log the bot conversation
             $this->log_conversation( $from, $text, $reply, ! is_wp_error( $result ) );
@@ -53,7 +53,7 @@ class WAI_Bot {
             // Send fallback message
             $fallback = self::get_setting( 'fallback_message' );
             if ( $fallback ) {
-                WAI_Messenger::send( $from, $fallback, 0 );
+                WABMH_Messenger::send( $from, $fallback, 0 );
                 $this->log_conversation( $from, $text, $fallback, true );
                 $this->update_session( $from, $text, $fallback );
             }
@@ -125,7 +125,7 @@ class WAI_Bot {
     // ------------------------------------------------------------------ //
 
     private function get_or_create_session( $from ) {
-        $key     = 'wai_session_' . md5( $from );
+        $key     = 'wabmh_session_' . md5( $from );
         $session = get_transient( $key );
         if ( ! $session ) {
             $session = [
@@ -140,7 +140,7 @@ class WAI_Bot {
     }
 
     private function update_session( $from, $incoming, $reply ) {
-        $key     = 'wai_session_' . md5( $from );
+        $key     = 'wabmh_session_' . md5( $from );
         $session = $this->get_or_create_session( $from );
         $session['message_count']++;
         $session['last_message'] = $incoming;
@@ -243,7 +243,7 @@ class WAI_Bot {
     }
 
     public static function get_setting( $key ) {
-        $settings = get_option( 'wai_bot_settings', [] );
+        $settings = get_option( 'wabmh_bot_settings', [] );
         return $settings[ $key ] ?? null;
     }
 
@@ -259,6 +259,6 @@ class WAI_Bot {
             'working_hours_end'     => sanitize_text_field( $data['working_hours_end']   ?? '17:00' ),
             'outside_hours_message' => sanitize_textarea_field( $data['outside_hours_message'] ?? '' ),
         ];
-        update_option( 'wai_bot_settings', $clean );
+        update_option( 'wabmh_bot_settings', $clean );
     }
 }

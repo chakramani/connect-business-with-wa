@@ -1,0 +1,34 @@
+/* Business Messaging Hub — Bot Conversations page styles */
+
+.wabmh-page-header--bot {
+	background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.wabmh-conv-msg {
+	max-width: 240px;
+}
+
+.wabmh-conv-bubble {
+	display: inline-block;
+	padding: 7px 12px;
+	border-radius: 14px;
+	font-size: .85rem;
+	line-height: 1.4;
+	word-break: break-word;
+}
+
+.wabmh-bubble-in {
+	background: #f0f0f0;
+	color: #333;
+	border-bottom-left-radius: 3px;
+}
+
+.wabmh-bubble-out {
+	background: #d4f5e2;
+	color: #1a5c35;
+	border-bottom-right-radius: 3px;
+}
+
+.wabmh-log-row.wabmh-hidden {
+	display: none;
+}

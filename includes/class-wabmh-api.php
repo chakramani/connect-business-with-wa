@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Handles all HTTP communication with the WhatsApp Business Cloud API.
  */
-class WAI_API {
+class WABMH_API {
 
     const API_BASE = 'https://graph.facebook.com/v21.0/';
 
@@ -85,7 +85,7 @@ class WAI_API {
         $data = json_decode( wp_remote_retrieve_body( $response ), true );
         if ( ! in_array( (int) $code, [ 200, 201 ], true ) ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_register_error', $msg, [ 'code' => $data['error']['code'] ?? $code ] );
+            return new WP_Error( 'wabmh_register_error', $msg, [ 'code' => $data['error']['code'] ?? $code ] );
         }
         return $data;
     }
@@ -106,7 +106,7 @@ class WAI_API {
         $data = json_decode( wp_remote_retrieve_body( $response ), true );
         if ( ! in_array( (int) $code, [ 200, 201 ], true ) ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_deregister_error', $msg );
+            return new WP_Error( 'wabmh_deregister_error', $msg );
         }
         return $data;
     }
@@ -133,7 +133,7 @@ class WAI_API {
 
         if ( 200 !== (int) $code ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_api_error', $msg );
+            return new WP_Error( 'wabmh_api_error', $msg );
         }
 
         return $data;
@@ -162,7 +162,7 @@ class WAI_API {
         $data = json_decode( wp_remote_retrieve_body( $response ), true );
         if ( 200 !== (int) $code ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_status_error', $msg );
+            return new WP_Error( 'wabmh_status_error', $msg );
         }
         return $data;
     }
@@ -184,7 +184,7 @@ class WAI_API {
 
         if ( 200 !== (int) $code ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_api_error', $msg );
+            return new WP_Error( 'wabmh_api_error', $msg );
         }
 
         return true;
@@ -212,7 +212,7 @@ class WAI_API {
 
         if ( ! in_array( (int) $code, [ 200, 201 ], true ) ) {
             $msg = $data['error']['message'] ?? __( 'Unknown API error.', 'business-messaging-hub' );
-            return new WP_Error( 'wai_send_error', $msg );
+            return new WP_Error( 'wabmh_send_error', $msg );
         }
 
         return $data;

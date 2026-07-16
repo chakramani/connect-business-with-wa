@@ -1,0 +1,58 @@
+/* Business Messaging Hub — Bot page styles */
+
+.wabmh-page-header--bot { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+.wabmh-bot-status-badge {
+    margin-left:auto; padding:8px 18px; border-radius:20px;
+    font-weight:700; font-size:.95rem;
+}
+.wabmh-bot-on  { background:rgba(37,211,102,.2); color:#25D366; border:1px solid #25D366; }
+.wabmh-bot-off { background:rgba(231,76,60,.15);  color:#e74c3c; border:1px solid #e74c3c; }
+
+/* Toggle switch */
+.wabmh-toggle { position:relative; display:inline-block; width:44px; height:24px; vertical-align:middle; }
+.wabmh-toggle input { opacity:0; width:0; height:0; }
+.wabmh-toggle-slider {
+    position:absolute; cursor:pointer; inset:0;
+    background:#ccc; border-radius:24px; transition:.3s;
+}
+.wabmh-toggle-slider:before {
+    content:''; position:absolute; width:18px; height:18px;
+    left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.3s;
+}
+.wabmh-toggle input:checked + .wabmh-toggle-slider { background:var(--wabmh-green); }
+.wabmh-toggle input:checked + .wabmh-toggle-slider:before { transform:translateX(20px); }
+.wabmh-toggle-label { margin-left:10px; vertical-align:middle; }
+
+/* Hours row */
+.wabmh-hours-row { display:flex; align-items:center; gap:10px; }
+.wabmh-hours-row input[type="time"] {
+    padding:5px 8px; border:1px solid var(--wabmh-border); border-radius:5px;
+}
+
+/* Variables table */
+.wabmh-vars-table { width:100%; font-size:.85rem; }
+.wabmh-vars-table td { padding:5px 8px; }
+.wabmh-vars-table td:first-child { width:130px; }
+.wabmh-vars-table code { background:#f0f0f0; padding:2px 6px; border-radius:4px; }
+
+/* Rules list */
+.wabmh-rules-list { display:flex; flex-direction:column; gap:10px; }
+.wabmh-rule-card {
+    border:1px solid var(--wabmh-border); border-radius:8px;
+    padding:12px 14px; background:#fff;
+    border-left:4px solid var(--wabmh-green);
+}
+.wabmh-rule-disabled { border-left-color:#ccc; opacity:.6; }
+.wabmh-rule-header { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+.wabmh-rule-keyword { display:flex; align-items:center; gap:8px; }
+.wabmh-keyword-badge {
+    background:#e8f5e9; color:var(--wabmh-green-dark);
+    padding:2px 8px; border-radius:10px; font-size:.72rem;
+    text-transform:uppercase; font-weight:600;
+}
+.wabmh-rule-actions { display:flex; gap:5px; }
+.wabmh-rule-reply { margin-top:8px; font-size:.85rem; color:var(--wabmh-muted); font-style:italic; }
+
+.wabmh-btn-delete { color:var(--wabmh-red) !important; border-color:var(--wabmh-red) !important; }
+.wabmh-btn-enable { color:var(--wabmh-green-dark) !important; border-color:var(--wabmh-green) !important; }
+.wabmh-btn-disable { color:var(--wabmh-muted) !important; }

@@ -2,12 +2,12 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * WAI Frontend Chat Widget
+ * WABMH Frontend Chat Widget
  * Only shown to logged-in users.
  * First visit → redirect to WhatsApp.
  * Subsequent visits → show chat history from DB.
  */
-class WAI_Widget {
+class WABMH_Widget {
 
     private static $instance = null;
 
@@ -19,11 +19,61 @@ class WAI_Widget {
     }
 
     private function __construct() {
+        add_action( 'wp_enqueue_scripts',                 [ $this, 'enqueue_assets' ] );
         add_action( 'wp_footer',                          [ $this, 'render_widget' ] );
-        add_action( 'wp_ajax_wai_widget_send',            [ $this, 'ajax_send' ] );
-        add_action( 'wp_ajax_wai_widget_start',           [ $this, 'ajax_start' ] );
-        add_action( 'wp_ajax_wai_widget_history',         [ $this, 'ajax_history' ] );
-        add_action( 'wp_ajax_wai_widget_poll',            [ $this, 'ajax_poll' ] );
+        add_action( 'wp_ajax_wabmh_widget_send',            [ $this, 'ajax_send' ] );
+        add_action( 'wp_ajax_wabmh_widget_start',           [ $this, 'ajax_start' ] );
+        add_action( 'wp_ajax_wabmh_widget_history',         [ $this, 'ajax_history' ] );
+        add_action( 'wp_ajax_wabmh_widget_poll',            [ $this, 'ajax_poll' ] );
+    }
+
+    /**
+     * Whether the widget should appear for the current request: enabled in
+     * settings and the visitor is a logged-in user.
+     */
+    private function should_render() {
+        $opts = get_option( WABMH_OPTION_KEY, [] );
+        return ! empty( $opts['widget_enabled'] ) && is_user_logged_in();
+    }
+
+    // ------------------------------------------------------------------ //
+    //  Assets — registered on wp_enqueue_scripts, not inline in the markup
+    // ------------------------------------------------------------------ //
+
+    public function enqueue_assets() {
+        if ( ! $this->should_render() ) return;
+
+        $opts        = get_option( WABMH_OPTION_KEY, [] );
+        $user        = wp_get_current_user();
+        $biz_phone   = preg_replace( '/\D/', '', $opts['widget_display_phone'] ?? '' );
+        $user_phone  = preg_replace( '/\D/', '', get_user_meta( $user->ID, 'wabmh_phone', true ) ?? '' );
+        $has_started = (bool) get_user_meta( $user->ID, 'wabmh_chat_started', true );
+
+        wp_enqueue_style(
+            'wabmh-chat-widget',
+            WABMH_PLUGIN_URL . 'public/css/chat-widget.css',
+            [],
+            WABMH_VERSION
+        );
+
+        wp_enqueue_script(
+            'wabmh-chat-widget',
+            WABMH_PLUGIN_URL . 'public/js/chat-widget.js',
+            [ 'jquery' ],
+            WABMH_VERSION,
+            [ 'in_footer' => true, 'strategy' => 'defer' ]
+        );
+
+        wp_localize_script( 'wabmh-chat-widget', 'wabmhWidget', [
+            'ajax_url'       => admin_url( 'admin-ajax.php' ),
+            'nonce'          => wp_create_nonce( 'wabmh_widget_nonce' ),
+            'business_name'  => $opts['business_name'] ?? get_bloginfo( 'name' ),
+            'business_phone' => $biz_phone,
+            'default_msg'    => $opts['widget_default_msg'] ?? 'Hi, I need help',
+            'user_id'        => $user->ID,
+            'user_phone'     => $user_phone,
+            'has_started'    => $has_started,
+        ] );
     }
 
     // ------------------------------------------------------------------ //
@@ -31,64 +81,41 @@ class WAI_Widget {
     // ------------------------------------------------------------------ //
 
     public function render_widget() {
-        $opts = get_option( WAI_OPTION_KEY, [] );
-        if ( empty( $opts['widget_enabled'] ) ) return;
+        if ( ! $this->should_render() ) return;
 
-        // Only for logged-in users
-        if ( ! is_user_logged_in() ) return;
-
-        $user          = wp_get_current_user();
-        $business_name = esc_js( $opts['business_name'] ?? get_bloginfo('name') );
-        $welcome_msg   = $opts['widget_welcome_msg'] ?? 'Hi there! 👋 How can we help you today?';
-        $biz_phone     = preg_replace( '/\D/', '', $opts['widget_display_phone'] ?? '' );
-        $default_msg   = esc_js( $opts['widget_default_msg'] ?? 'Hi, I need help' );
-
-        // Get user's saved phone from user meta
-        $user_phone    = preg_replace( '/\D/', '', get_user_meta( $user->ID, 'wai_phone', true ) ?? '' );
-        $has_started   = (bool) get_user_meta( $user->ID, 'wai_chat_started', true );
-
-        wp_enqueue_script( 'jquery' );
+        $opts        = get_option( WABMH_OPTION_KEY, [] );
+        $user        = wp_get_current_user();
+        $welcome_msg = $opts['widget_welcome_msg'] ?? 'Hi there! 👋 How can we help you today?';
+        $biz_phone   = preg_replace( '/\D/', '', $opts['widget_display_phone'] ?? '' );
+        $user_phone  = preg_replace( '/\D/', '', get_user_meta( $user->ID, 'wabmh_phone', true ) ?? '' );
+        $has_started = (bool) get_user_meta( $user->ID, 'wabmh_chat_started', true );
         ?>
 
-        <!-- WAI Widget Config -->
-        <script>
-        var waiWidget = <?php echo wp_json_encode([
-            'ajax_url'      => admin_url('admin-ajax.php'),
-            'nonce'         => wp_create_nonce('wai_widget_nonce'),
-            'business_name' => $opts['business_name'] ?? get_bloginfo('name'),
-            'business_phone'=> $biz_phone,
-            'default_msg'   => $opts['widget_default_msg'] ?? 'Hi, I need help',
-            'user_id'       => $user->ID,
-            'user_phone'    => $user_phone,
-            'has_started'   => $has_started,
-        ]); ?>;
-        </script>
-
-        <!-- WAI Launcher -->
-        <button class="wai-chat-launcher" aria-label="Chat on WhatsApp">
+        <!-- WABMH Launcher -->
+        <button class="wabmh-chat-launcher" aria-label="Chat on WhatsApp">
             <svg viewBox="0 0 24 24" width="30" height="30" fill="#fff">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            <span class="wai-launcher-badge"></span>
+            <span class="wabmh-launcher-badge"></span>
         </button>
 
-        <!-- WAI Chat Widget -->
-        <div class="wai-chat-widget" role="dialog" aria-label="WhatsApp Chat">
+        <!-- WABMH Chat Widget -->
+        <div class="wabmh-chat-widget" role="dialog" aria-label="WhatsApp Chat">
 
             <!-- Header -->
-            <div class="wai-widget-header">
-                <div class="wai-widget-avatar">💬</div>
-                <div class="wai-widget-header-info">
+            <div class="wabmh-widget-header">
+                <div class="wabmh-widget-avatar">💬</div>
+                <div class="wabmh-widget-header-info">
                     <strong><?php echo esc_html( $opts['business_name'] ?? get_bloginfo('name') ); ?></strong>
-                    <span><span class="wai-online-dot"></span> Typically replies instantly</span>
+                    <span><span class="wabmh-online-dot"></span> Typically replies instantly</span>
                 </div>
-                <button class="wai-widget-close" aria-label="Close">✕</button>
+                <button class="wabmh-widget-close" aria-label="Close">✕</button>
             </div>
 
             <!-- Screen 1: Welcome (first time) -->
-            <div class="wai-widget-screen wai-welcome-screen <?php echo ! $has_started ? 'active' : ''; ?>">
-                <div class="wai-welcome-inner">
-                    <div class="wai-welcome-bubble">
+            <div class="wabmh-widget-screen wabmh-welcome-screen <?php echo ! $has_started ? 'active' : ''; ?>">
+                <div class="wabmh-welcome-inner">
+                    <div class="wabmh-welcome-bubble">
                         <p><?php echo esc_html( $welcome_msg ); ?></p>
                         <p style="font-size:.82rem;color:#666;margin-top:6px;">
                             👋 Hi <?php echo esc_html( $user->display_name ); ?>! Enter your WhatsApp number to start chatting.
@@ -97,16 +124,16 @@ class WAI_Widget {
                     <div style="width:100%;max-width:280px;">
                         <input
                             type="tel"
-                            id="wai-user-phone"
+                            id="wabmh-user-phone"
                             placeholder="Your WhatsApp number e.g. 9779843673682"
                             style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:22px;font-size:.88rem;box-sizing:border-box;outline:none;margin-bottom:10px;"
                             maxlength="20"
                             value="<?php echo esc_attr( $user_phone ); ?>"
                         />
-                        <button type="button" id="wai-open-whatsapp" class="wai-start-btn" style="width:100%;">
+                        <button type="button" id="wabmh-open-whatsapp" class="wabmh-start-btn" style="width:100%;">
                             💬 Start Chat on WhatsApp
                         </button>
-                        <p id="wai-phone-error" style="color:#c0392b;font-size:.8rem;margin-top:6px;display:none;"></p>
+                        <p id="wabmh-phone-error" style="color:#c0392b;font-size:.8rem;margin-top:6px;display:none;"></p>
                         <?php if ( ! $biz_phone ) : ?>
                         <p style="color:#c0392b;font-size:.8rem;margin-top:8px;">⚠️ Business phone not configured in settings.</p>
                         <?php endif; ?>
@@ -115,27 +142,27 @@ class WAI_Widget {
             </div>
 
             <!-- Screen 2: Chat history (returning users) -->
-            <div class="wai-widget-screen wai-chat-screen <?php echo $has_started ? 'active' : ''; ?>">
-                <div class="wai-widget-messages" id="wai-widget-messages">
-                    <div class="wai-widget-typing">
-                        <div class="wai-typing-bubble">
-                            <div class="wai-typing-dot"></div>
-                            <div class="wai-typing-dot"></div>
-                            <div class="wai-typing-dot"></div>
+            <div class="wabmh-widget-screen wabmh-chat-screen <?php echo $has_started ? 'active' : ''; ?>">
+                <div class="wabmh-widget-messages" id="wabmh-widget-messages">
+                    <div class="wabmh-widget-typing">
+                        <div class="wabmh-typing-bubble">
+                            <div class="wabmh-typing-dot"></div>
+                            <div class="wabmh-typing-dot"></div>
+                            <div class="wabmh-typing-dot"></div>
                         </div>
                     </div>
                 </div>
                 <!-- Reply box -->
-                <div class="wai-widget-reply" style="background:#f0f0f0;padding:8px 10px;display:flex;align-items:flex-end;gap:8px;border-top:1px solid #ddd;flex-shrink:0;">
+                <div class="wabmh-widget-reply" style="background:#f0f0f0;padding:8px 10px;display:flex;align-items:flex-end;gap:8px;border-top:1px solid #ddd;flex-shrink:0;">
                     <textarea
-                        id="wai-widget-textarea"
-                        class="wai-widget-textarea"
+                        id="wabmh-widget-textarea"
+                        class="wabmh-widget-textarea"
                         placeholder="Type a message…"
                         rows="1"
                         maxlength="4096"
                         style="flex:1;padding:9px 14px;border:none;border-radius:22px;background:#fff;font-size:.86rem;resize:none;outline:none;max-height:100px;overflow-y:auto;line-height:1.5;font-family:inherit;"
                     ></textarea>
-                    <button id="wai-widget-send" class="wai-widget-send" aria-label="Send" style="width:40px;height:40px;border-radius:50%;background:#075e54;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <button id="wabmh-widget-send" class="wabmh-widget-send" aria-label="Send" style="width:40px;height:40px;border-radius:50%;background:#075e54;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"/>
                         </svg>
@@ -146,24 +173,6 @@ class WAI_Widget {
         </div>
 
         <?php
-        // Output CSS inline
-        echo '<style>';
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo file_get_contents( WAI_PLUGIN_DIR . 'public/css/chat-widget.css' );
-        echo '.wai-welcome-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:24px;text-align:center;background:#e5ddd5;}';
-        echo '.wai-welcome-bubble{background:#fff;border-radius:12px 12px 12px 0;padding:14px 18px;max-width:260px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,.1);margin-bottom:20px;}';
-        echo '.wai-welcome-bubble p{margin:0;font-size:.88rem;color:#333;line-height:1.5;}';
-        echo '.wai-start-btn{background:#25d366;color:#fff;border:none;border-radius:22px;padding:12px 24px;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s;}';
-        echo '.wai-start-btn:hover{background:#1da851;}';
-        echo '</style>';
-
-        // Output JS inline
-        echo '<script>';
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo file_get_contents( WAI_PLUGIN_DIR . 'public/js/chat-widget.js' );
-        echo '</script>';
-        ?>
-        <?php
     }
 
     // ------------------------------------------------------------------ //
@@ -172,7 +181,7 @@ class WAI_Widget {
 
 
     public function ajax_send() {
-        check_ajax_referer( 'wai_widget_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_widget_nonce', 'nonce' );
         if ( ! is_user_logged_in() ) {
             wp_send_json_error( [ 'message' => 'Not logged in.' ] );
         }
@@ -185,15 +194,15 @@ class WAI_Widget {
         }
 
         // Get the customer's own phone number
-        $phone = get_user_meta( $user_id, 'wai_phone', true );
+        $phone = get_user_meta( $user_id, 'wabmh_phone', true );
         if ( ! $phone ) {
             wp_send_json_error( [ 'message' => 'No phone linked. Please restart chat.' ] );
         }
 
         // Customer is SENDING TO the business — store as 'received' (incoming to business)
-        // Do NOT call WAI_Messenger::send() here — that sends FROM business TO customer
+        // Do NOT call WABMH_Messenger::send() here — that sends FROM business TO customer
         // which would be the wrong direction and trigger re-engagement errors.
-        WAI_Log::insert( [
+        WABMH_Log::insert( [
             'recipient' => $phone,
             'message'   => $message,
             'status'    => 'received',
@@ -203,7 +212,7 @@ class WAI_Widget {
         ] );
 
         // Notify admin via email if enabled
-        $opts = get_option( WAI_OPTION_KEY, [] );
+        $opts = get_option( WABMH_OPTION_KEY, [] );
         if ( ! empty( $opts['widget_email_notify'] ) ) {
             wp_mail(
                 get_option( 'admin_email' ),
@@ -221,7 +230,7 @@ $message"
     }
 
     public function ajax_start() {
-        check_ajax_referer( 'wai_widget_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_widget_nonce', 'nonce' );
         if ( ! is_user_logged_in() ) wp_send_json_error( [ 'message' => 'Not logged in.' ] );
 
         $user_id = get_current_user_id();
@@ -234,8 +243,8 @@ $message"
         }
 
         // Save phone and mark chat as started
-        update_user_meta( $user_id, 'wai_phone', $phone );
-        update_user_meta( $user_id, 'wai_chat_started', '1' );
+        update_user_meta( $user_id, 'wabmh_phone', $phone );
+        update_user_meta( $user_id, 'wabmh_chat_started', '1' );
 
         wp_send_json_success( [ 'phone' => $phone ] );
     }
@@ -245,12 +254,12 @@ $message"
     // ------------------------------------------------------------------ //
 
     public function ajax_history() {
-        check_ajax_referer( 'wai_widget_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_widget_nonce', 'nonce' );
         if ( ! is_user_logged_in() ) wp_send_json_error( [ 'message' => 'Not logged in.' ] );
 
         $user_id    = get_current_user_id();
         $user       = get_userdata( $user_id );
-        $user_phone = preg_replace( '/\D/', '', get_user_meta( $user_id, 'wai_phone', true ) ?: '' );
+        $user_phone = preg_replace( '/\D/', '', get_user_meta( $user_id, 'wabmh_phone', true ) ?: '' );
 
         // Fallback: match by billing phone or WP user email
         if ( ! $user_phone ) {
@@ -262,12 +271,12 @@ $message"
         }
 
         global $wpdb;
-        $table = esc_sql( $wpdb->prefix . 'wai_message_log' );
+        $table = esc_sql( $wpdb->prefix . 'wabmh_message_log' );
         $rows  = $wpdb->get_results( "SELECT id, recipient, message, status, created_at FROM $table ORDER BY id ASC" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, table name sanitized via esc_sql().
 
         $msgs = [];
         foreach ( $rows as $row ) {
-            if ( WAI_Inbox::normalize_phone( $row->recipient ) !== $user_phone ) continue;
+            if ( WABMH_Inbox::normalize_phone( $row->recipient ) !== $user_phone ) continue;
             $msgs[] = [
                 'id'   => (int) $row->id,
                 // outgoing from widget = received by business; incoming = sent by business
@@ -285,12 +294,12 @@ $message"
     // ------------------------------------------------------------------ //
 
     public function ajax_poll() {
-        check_ajax_referer( 'wai_widget_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_widget_nonce', 'nonce' );
         if ( ! is_user_logged_in() ) wp_send_json_error();
 
         $last_id    = isset( $_POST['last_id'] ) ? (int) $_POST['last_id'] : 0;
         $user_id    = get_current_user_id();
-        $user_phone = preg_replace( '/\D/', '', get_user_meta( $user_id, 'wai_phone', true ) ?: '' );
+        $user_phone = preg_replace( '/\D/', '', get_user_meta( $user_id, 'wabmh_phone', true ) ?: '' );
 
         if ( ! $user_phone ) {
             $user_phone = preg_replace( '/\D/', '', get_user_meta( $user_id, 'billing_phone', true ) ?: '' );
@@ -299,7 +308,7 @@ $message"
         if ( ! $user_phone ) wp_send_json_success( [ 'messages' => [] ] );
 
         global $wpdb;
-        $table = esc_sql( $wpdb->prefix . 'wai_message_log' );
+        $table = esc_sql( $wpdb->prefix . 'wabmh_message_log' );
         $rows = $wpdb->get_results( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, no caching API equivalent.
             "SELECT id, recipient, message, status, created_at FROM $table WHERE id > %d ORDER BY id ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name sanitized via esc_sql(), no user input.
             $last_id
@@ -307,7 +316,7 @@ $message"
 
         $msgs = [];
         foreach ( $rows as $row ) {
-            if ( WAI_Inbox::normalize_phone( $row->recipient ) !== $user_phone ) continue;
+            if ( WABMH_Inbox::normalize_phone( $row->recipient ) !== $user_phone ) continue;
             $msgs[] = [
                 'id'   => (int) $row->id,
                 'dir'  => ( 'received' === $row->status ) ? 'outgoing' : 'incoming',

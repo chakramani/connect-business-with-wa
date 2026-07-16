@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Registers admin menus and handles admin-side AJAX.
  */
-class WAI_Admin {
+class WABMH_Admin {
 
     private static $instance = null;
 
@@ -19,18 +19,18 @@ class WAI_Admin {
         add_action( 'admin_menu',             [ $this, 'register_menus' ] );
         add_filter( 'query_vars',              [ $this, 'allow_query_vars' ] );
         add_action( 'admin_enqueue_scripts',  [ $this, 'enqueue_assets' ] );
-        add_action( 'wp_ajax_wai_send_message',    [ $this, 'ajax_send_message' ] );
-        add_action( 'wp_ajax_wai_test_connection', [ $this, 'ajax_test_connection' ] );
-        add_action( 'wp_ajax_wai_verify_message',  [ $this, 'ajax_verify_message' ] );
-        add_action( 'wp_ajax_wai_test_webhook',        [ $this, 'ajax_test_webhook' ] );
-        add_action( 'wp_ajax_wai_regenerate_token',    [ $this, 'ajax_regenerate_token' ] );
-        add_action( 'wp_ajax_wai_register_phone',      [ $this, 'ajax_register_phone' ] );
-        add_action( 'wp_ajax_wai_phone_status',        [ $this, 'ajax_phone_status' ] );
-        add_action( 'wp_ajax_wai_deregister_phone',    [ $this, 'ajax_deregister_phone' ] );
-        add_action( 'wp_ajax_wai_inbox_poll',          [ $this, 'ajax_inbox_poll' ] );
-        add_action( 'wp_ajax_wai_inbox_load',          [ $this, 'ajax_inbox_load' ] );
-        add_action( 'wp_ajax_wai_inbox_poll_new',      [ $this, 'ajax_inbox_poll_new' ] );
-        add_action( 'wp_ajax_wai_inbox_sidebar',       [ $this, 'ajax_inbox_sidebar' ] );
+        add_action( 'wp_ajax_wabmh_send_message',    [ $this, 'ajax_send_message' ] );
+        add_action( 'wp_ajax_wabmh_test_connection', [ $this, 'ajax_test_connection' ] );
+        add_action( 'wp_ajax_wabmh_verify_message',  [ $this, 'ajax_verify_message' ] );
+        add_action( 'wp_ajax_wabmh_test_webhook',        [ $this, 'ajax_test_webhook' ] );
+        add_action( 'wp_ajax_wabmh_regenerate_token',    [ $this, 'ajax_regenerate_token' ] );
+        add_action( 'wp_ajax_wabmh_register_phone',      [ $this, 'ajax_register_phone' ] );
+        add_action( 'wp_ajax_wabmh_phone_status',        [ $this, 'ajax_phone_status' ] );
+        add_action( 'wp_ajax_wabmh_deregister_phone',    [ $this, 'ajax_deregister_phone' ] );
+        add_action( 'wp_ajax_wabmh_inbox_poll',          [ $this, 'ajax_inbox_poll' ] );
+        add_action( 'wp_ajax_wabmh_inbox_load',          [ $this, 'ajax_inbox_load' ] );
+        add_action( 'wp_ajax_wabmh_inbox_poll_new',      [ $this, 'ajax_inbox_poll_new' ] );
+        add_action( 'wp_ajax_wabmh_inbox_sidebar',       [ $this, 'ajax_inbox_sidebar' ] );
     }
 
     // ------------------------------------------------------------------ //
@@ -48,90 +48,90 @@ class WAI_Admin {
             __( 'WhatsApp', 'business-messaging-hub' ),
             __( 'WhatsApp', 'business-messaging-hub' ),
             'manage_options',
-            'wai-dashboard',
+            'wabmh-dashboard',
             [ $this, 'page_dashboard' ],
             'dashicons-format-chat',
             58
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Dashboard', 'business-messaging-hub' ),
             __( 'Dashboard', 'business-messaging-hub' ),
             'manage_options',
-            'wai-dashboard',
+            'wabmh-dashboard',
             [ $this, 'page_dashboard' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Inbox', 'business-messaging-hub' ),
             __( '💬 Inbox', 'business-messaging-hub' ),
             'manage_options',
-            'wai-inbox',
+            'wabmh-inbox',
             [ $this, 'page_inbox' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Send Message', 'business-messaging-hub' ),
             __( 'Send Message', 'business-messaging-hub' ),
             'manage_options',
-            'wai-send',
+            'wabmh-send',
             [ $this, 'page_send' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'WhatsApp Bot', 'business-messaging-hub' ),
             __( '🤖 Bot', 'business-messaging-hub' ),
             'manage_options',
-            'wai-bot',
+            'wabmh-bot',
             [ $this, 'page_bot' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Bot Conversations', 'business-messaging-hub' ),
             __( 'Bot Conversations', 'business-messaging-hub' ),
             'manage_options',
-            'wai-bot-conversations',
+            'wabmh-bot-conversations',
             [ $this, 'page_bot_conversations' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Message Log', 'business-messaging-hub' ),
             __( 'Message Log', 'business-messaging-hub' ),
             'manage_options',
-            'wai-log',
+            'wabmh-log',
             [ $this, 'page_log' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Settings', 'business-messaging-hub' ),
             __( 'Settings', 'business-messaging-hub' ),
             'manage_options',
-            'wai-settings',
+            'wabmh-settings',
             [ $this, 'page_settings' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Webhook', 'business-messaging-hub' ),
             __( '⚡ Webhook', 'business-messaging-hub' ),
             'manage_options',
-            'wai-webhook',
+            'wabmh-webhook',
             [ $this, 'page_webhook' ]
         );
 
         add_submenu_page(
-            'wai-dashboard',
+            'wabmh-dashboard',
             __( 'Webhook Log', 'business-messaging-hub' ),
             __( 'Webhook Log', 'business-messaging-hub' ),
             'manage_options',
-            'wai-webhook-log',
+            'wabmh-webhook-log',
             [ $this, 'page_webhook_log' ]
         );
     }
@@ -141,40 +141,40 @@ class WAI_Admin {
     // ------------------------------------------------------------------ //
 
     public function enqueue_assets( $hook ) {
-        $wai_hooks = [
-            'toplevel_page_wai-dashboard',
-            'whatsapp_page_wai-send',
-            'whatsapp_page_wai-log',
-            'whatsapp_page_wai-settings',
-            'whatsapp_page_wai-webhook',
-            'whatsapp_page_wai-webhook-log',
-            'whatsapp_page_wai-bot',
-            'whatsapp_page_wai-bot-conversations',
-            'whatsapp_page_wai-inbox',
+        $wabmh_hooks = [
+            'toplevel_page_wabmh-dashboard',
+            'whatsapp_page_wabmh-send',
+            'whatsapp_page_wabmh-log',
+            'whatsapp_page_wabmh-settings',
+            'whatsapp_page_wabmh-webhook',
+            'whatsapp_page_wabmh-webhook-log',
+            'whatsapp_page_wabmh-bot',
+            'whatsapp_page_wabmh-bot-conversations',
+            'whatsapp_page_wabmh-inbox',
         ];
 
-        if ( ! in_array( $hook, $wai_hooks, true ) ) {
+        if ( ! in_array( $hook, $wabmh_hooks, true ) ) {
             return;
         }
 
         wp_enqueue_style(
-            'wai-admin',
-            WAI_PLUGIN_URL . 'admin/css/admin.css',
+            'wabmh-admin',
+            WABMH_PLUGIN_URL . 'admin/css/admin.css',
             [],
-            WAI_VERSION
+            WABMH_VERSION
         );
 
         wp_enqueue_script(
-            'wai-admin',
-            WAI_PLUGIN_URL . 'admin/js/admin.js',
+            'wabmh-admin',
+            WABMH_PLUGIN_URL . 'admin/js/admin.js',
             [ 'jquery' ],
-            WAI_VERSION,
-            true
+            WABMH_VERSION,
+            [ 'in_footer' => true, 'strategy' => 'defer' ]
         );
 
-        wp_localize_script( 'wai-admin', 'wai', [
+        wp_localize_script( 'wabmh-admin', 'wabmh', [
             'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'nonce'    => wp_create_nonce( 'wai_nonce' ),
+            'nonce'    => wp_create_nonce( 'wabmh_nonce' ),
             'i18n'     => [
                 'sending'     => __( 'Sending…',          'business-messaging-hub' ),
                 'send'        => __( 'Send Message',       'business-messaging-hub' ),
@@ -184,6 +184,51 @@ class WAI_Admin {
                 'error_empty' => __( 'Please fill in all fields.', 'business-messaging-hub' ),
             ],
         ] );
+
+        // Per-page assets: only enqueue what that specific screen needs, all
+        // depending on 'wabmh-admin' so they load after the shared script/i18n data.
+        $page_assets = [
+            'whatsapp_page_wabmh-settings'          => 'settings',
+            'whatsapp_page_wabmh-webhook'            => 'webhook',
+            'whatsapp_page_wabmh-webhook-log'        => 'webhook-log',
+            'whatsapp_page_wabmh-log'                => 'log',
+            'whatsapp_page_wabmh-bot'                => 'bot',
+            'whatsapp_page_wabmh-bot-conversations'  => 'bot-conversations',
+            'whatsapp_page_wabmh-inbox'              => 'inbox',
+        ];
+
+        if ( isset( $page_assets[ $hook ] ) ) {
+            $slug = $page_assets[ $hook ];
+
+            if ( file_exists( WABMH_PLUGIN_DIR . "admin/css/{$slug}.css" ) ) {
+                wp_enqueue_style(
+                    "wabmh-{$slug}",
+                    WABMH_PLUGIN_URL . "admin/css/{$slug}.css",
+                    [ 'wabmh-admin' ],
+                    WABMH_VERSION
+                );
+            }
+
+            if ( file_exists( WABMH_PLUGIN_DIR . "admin/js/{$slug}.js" ) ) {
+                wp_enqueue_script(
+                    "wabmh-{$slug}",
+                    WABMH_PLUGIN_URL . "admin/js/{$slug}.js",
+                    [ 'wabmh-admin' ],
+                    WABMH_VERSION,
+                    [ 'in_footer' => true, 'strategy' => 'defer' ]
+                );
+            }
+        }
+
+        // Webhook page's regenerate-token confirm dialog needs a translated
+        // string; localize it instead of interpolating PHP into the JS file.
+        if ( 'whatsapp_page_wabmh-webhook' === $hook ) {
+            wp_localize_script( 'wabmh-webhook', 'wabmhWebhook', [
+                'i18n' => [
+                    'confirmRegen' => __( 'Generate a new token? You will need to update Meta with the new token before clicking Verify and Save again.', 'business-messaging-hub' ),
+                ],
+            ] );
+        }
     }
 
     // ------------------------------------------------------------------ //
@@ -191,13 +236,13 @@ class WAI_Admin {
     // ------------------------------------------------------------------ //
 
     public function page_dashboard() {
-        $stats    = WAI_Log::get_stats();
+        $stats    = WABMH_Log::get_stats();
         $stat_map = [];
         foreach ( $stats as $row ) {
             $stat_map[ $row->status ] = (int) $row->total;
         }
-        $recent = WAI_Log::get_recent( 5 );
-        require WAI_PLUGIN_DIR . 'admin/views/dashboard.php';
+        $recent = WABMH_Log::get_recent( 5 );
+        require WABMH_PLUGIN_DIR . 'admin/views/dashboard.php';
     }
 
     public function page_inbox() {
@@ -207,38 +252,38 @@ class WAI_Admin {
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display param, no state change.
             $_GET['contact'] = sanitize_text_field( wp_unslash( $_REQUEST['contact'] ) );
         }
-        require WAI_PLUGIN_DIR . 'admin/views/inbox.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/inbox.php';
     }
 
     public function page_send() {
-        require WAI_PLUGIN_DIR . 'admin/views/send.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/send.php';
     }
 
     public function page_log() {
-        $logs = WAI_Log::get_recent( 100 );
-        require WAI_PLUGIN_DIR . 'admin/views/log.php';
+        $logs = WABMH_Log::get_recent( 100 );
+        require WABMH_PLUGIN_DIR . 'admin/views/log.php';
     }
 
     public function page_bot() {
-        require WAI_PLUGIN_DIR . 'admin/views/bot.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/bot.php';
     }
 
     public function page_bot_conversations() {
-        require WAI_PLUGIN_DIR . 'admin/views/bot-conversations.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/bot-conversations.php';
     }
 
     public function page_webhook() {
-        require WAI_PLUGIN_DIR . 'admin/views/webhook.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/webhook.php';
     }
 
     public function page_webhook_log() {
-        $webhook_logs = WAI_Webhook_Log::get_recent( 100 );
-        $webhook_stats = WAI_Webhook_Log::get_stats();
-        require WAI_PLUGIN_DIR . 'admin/views/webhook-log.php';
+        $webhook_logs = WABMH_Webhook_Log::get_recent( 100 );
+        $webhook_stats = WABMH_Webhook_Log::get_stats();
+        require WABMH_PLUGIN_DIR . 'admin/views/webhook-log.php';
     }
 
     public function page_settings() {
-        require WAI_PLUGIN_DIR . 'admin/views/settings.php';
+        require WABMH_PLUGIN_DIR . 'admin/views/settings.php';
     }
 
     // ------------------------------------------------------------------ //
@@ -246,7 +291,7 @@ class WAI_Admin {
     // ------------------------------------------------------------------ //
 
     public function ajax_send_message() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
@@ -259,7 +304,7 @@ class WAI_Admin {
             wp_send_json_error( [ 'message' => __( 'Recipient and message are required.', 'business-messaging-hub' ) ] );
         }
 
-        $result = WAI_Messenger::send( $to, $message );
+        $result = WABMH_Messenger::send( $to, $message );
 
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( [ 'message' => $result->get_error_message() ] );
@@ -269,7 +314,7 @@ class WAI_Admin {
     }
 
     public function ajax_verify_message() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
@@ -287,7 +332,7 @@ class WAI_Admin {
         // We verify by checking our local DB log and confirming the wamid format is valid.
 
         global $wpdb;
-        $table = esc_sql( WAI_Log::table_name() );
+        $table = esc_sql( WABMH_Log::table_name() );
         $log   = $wpdb->get_row( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, no caching API equivalent.
             "SELECT * FROM $table WHERE msg_id = %s LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name sanitized via esc_sql().
             $msg_id
@@ -316,13 +361,13 @@ class WAI_Admin {
     }
 
     public function ajax_test_connection() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
-        $api = WAI_Settings::api();
+        $api = WABMH_Settings::api();
         if ( ! $api ) {
             wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
@@ -336,23 +381,23 @@ class WAI_Admin {
     }
 
     public function ajax_regenerate_token() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
         }
-        $token = WAI_Settings::regenerate_verify_token();
+        $token = WABMH_Settings::regenerate_verify_token();
         wp_send_json_success( [ 'token' => $token ] );
     }
 
     public function ajax_test_webhook() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => __( 'Unauthorized.', 'business-messaging-hub' ) ], 403 );
         }
 
-        $webhook_url  = rest_url( 'wai/v1/webhook' );
-        $verify_token = WAI_Settings::get( 'webhook_verify_token' );
+        $webhook_url  = rest_url( 'wabmh/v1/webhook' );
+        $verify_token = WABMH_Settings::get( 'webhook_verify_token' );
         $challenge    = 'wp_test_' . wp_generate_password( 8, false );
 
         // Build the URL manually — add_query_arg() encodes dots (hub.mode → hub%2Emode)
@@ -362,7 +407,7 @@ class WAI_Admin {
             . '&hub.verify_token=' . rawurlencode( $verify_token )
             . '&hub.challenge='    . rawurlencode( $challenge );
 
-        $response = wp_remote_get( $test_url, [ 'timeout' => 10, 'sslverify' => false ] );
+        $response = wp_remote_get( $test_url, [ 'timeout' => 10 ] );
 
         if ( is_wp_error( $response ) ) {
             wp_send_json_error( [ 'message' => $response->get_error_message() ] );
@@ -396,7 +441,7 @@ class WAI_Admin {
         }
     }
     public function ajax_register_phone() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
         }
@@ -404,7 +449,7 @@ class WAI_Admin {
         if ( ! preg_match( '/^\d{6}$/', $pin ) ) {
             wp_send_json_error( [ 'message' => __( 'PIN must be exactly 6 digits.', 'business-messaging-hub' ) ] );
         }
-        $api = WAI_Settings::api();
+        $api = WABMH_Settings::api();
         if ( ! $api ) {
             wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
@@ -416,11 +461,11 @@ class WAI_Admin {
     }
 
     public function ajax_deregister_phone() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
         }
-        $api = WAI_Settings::api();
+        $api = WABMH_Settings::api();
         if ( ! $api ) {
             wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
@@ -432,11 +477,11 @@ class WAI_Admin {
     }
 
     public function ajax_phone_status() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
         }
-        $api = WAI_Settings::api();
+        $api = WABMH_Settings::api();
         if ( ! $api ) {
             wp_send_json_error( [ 'message' => __( 'Please save your API credentials first.', 'business-messaging-hub' ) ] );
         }
@@ -461,7 +506,7 @@ class WAI_Admin {
     }
 
     public function ajax_inbox_poll() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [], 403 );
         }
@@ -471,7 +516,7 @@ class WAI_Admin {
         if ( ! $phone ) wp_send_json_error();
 
         global $wpdb;
-        $table = esc_sql( WAI_Log::table_name() );
+        $table = esc_sql( WABMH_Log::table_name() );
         $rows  = $wpdb->get_results( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, no caching API equivalent.
             "SELECT * FROM $table WHERE recipient = %s ORDER BY id ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name sanitized via esc_sql().
             $phone
@@ -495,24 +540,24 @@ class WAI_Admin {
         foreach ( $new_rows as $msg ) {
             $is_incoming = ( 'received' === $msg->status );
             $time        = gmdate( 'H:i', strtotime( $msg->created_at ) );
-            $dir_class   = $is_incoming ? 'wai-msg-incoming' : 'wai-msg-outgoing';
+            $dir_class   = $is_incoming ? 'wabmh-msg-incoming' : 'wabmh-msg-outgoing';
             $tick        = ! $is_incoming ? ( $ticks[ $msg->status ] ?? '✓' ) : '';
-            $tick_html   = ! $is_incoming ? '<span class="wai-msg-tick">' . $tick . '</span>' : '';
-            $error_html  = ! empty( $msg->error ) ? '<div class="wai-msg-error">❌ ' . esc_html( $msg->error ) . '</div>' : '';
-            $html .= '<div class="wai-msg-wrap ' . $dir_class . '">'
-                   . '<div class="wai-msg-bubble">'
-                   . '<div class="wai-msg-text">' . nl2br( esc_html( $msg->message ) ) . '</div>'
-                   . '<div class="wai-msg-meta"><span class="wai-msg-time">' . esc_html( $time ) . '</span>' . $tick_html . '</div>'
+            $tick_html   = ! $is_incoming ? '<span class="wabmh-msg-tick">' . $tick . '</span>' : '';
+            $error_html  = ! empty( $msg->error ) ? '<div class="wabmh-msg-error">❌ ' . esc_html( $msg->error ) . '</div>' : '';
+            $html .= '<div class="wabmh-msg-wrap ' . $dir_class . '">'
+                   . '<div class="wabmh-msg-bubble">'
+                   . '<div class="wabmh-msg-text">' . nl2br( esc_html( $msg->message ) ) . '</div>'
+                   . '<div class="wabmh-msg-meta"><span class="wabmh-msg-time">' . esc_html( $time ) . '</span>' . $tick_html . '</div>'
                    . $error_html
                    . '</div></div>';
         }
 
-        WAI_Inbox::mark_read( $phone );
+        WABMH_Inbox::mark_read( $phone );
         wp_send_json_success( [ 'html' => $html ] );
     }
 
     public function ajax_inbox_load() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
         }
@@ -520,16 +565,16 @@ class WAI_Admin {
         if ( ! $phone ) {
             wp_send_json_error( [ 'message' => 'No phone provided.' ] );
         }
-        $norm = WAI_Inbox::normalize_phone( $phone );
+        $norm = WABMH_Inbox::normalize_phone( $phone );
         global $wpdb;
-        $table = esc_sql( $wpdb->prefix . 'wai_message_log' );
+        $table = esc_sql( $wpdb->prefix . 'wabmh_message_log' );
 
         // Direct query with LIKE to catch all phone format variants
         $all_rows = $wpdb->get_results( "SELECT id, recipient, message, status, msg_id, error, created_at FROM $table ORDER BY id ASC" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, table name sanitized via esc_sql().
 
         $msgs = [];
         foreach ( $all_rows as $row ) {
-            $row_norm = WAI_Inbox::normalize_phone( $row->recipient );
+            $row_norm = WABMH_Inbox::normalize_phone( $row->recipient );
             if ( $row_norm === $norm ) {
                 $msgs[] = [
                     'id'         => (int) $row->id,
@@ -541,7 +586,7 @@ class WAI_Admin {
             }
         }
 
-        WAI_Inbox::mark_read( $norm );
+        WABMH_Inbox::mark_read( $norm );
 
         wp_send_json_success( [
             'messages'    => $msgs,
@@ -553,16 +598,16 @@ class WAI_Admin {
     }
 
     public function ajax_inbox_poll_new() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) wp_send_json_error( [], 403 );
 
         $phone   = isset( $_POST['phone'] )   ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
         $last_id = isset( $_POST['last_id'] ) ? (int) $_POST['last_id'] : 0;
         if ( ! $phone ) wp_send_json_error();
 
-        $norm  = WAI_Inbox::normalize_phone( $phone );
+        $norm  = WABMH_Inbox::normalize_phone( $phone );
         global $wpdb;
-        $table = esc_sql( $wpdb->prefix . 'wai_message_log' );
+        $table = esc_sql( $wpdb->prefix . 'wabmh_message_log' );
 
         // Only fetch rows with id > last_id for this contact
         $all = $wpdb->get_results( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, no caching API equivalent.
@@ -572,7 +617,7 @@ class WAI_Admin {
 
         $msgs = [];
         foreach ( $all as $row ) {
-            if ( WAI_Inbox::normalize_phone( $row->recipient ) === $norm ) {
+            if ( WABMH_Inbox::normalize_phone( $row->recipient ) === $norm ) {
                 $msgs[] = [
                     'id'         => (int) $row->id,
                     'message'    => (string) $row->message,
@@ -584,43 +629,43 @@ class WAI_Admin {
         }
 
         if ( ! empty( $msgs ) ) {
-            WAI_Inbox::mark_read( $norm );
+            WABMH_Inbox::mark_read( $norm );
         }
 
         wp_send_json_success( [ 'messages' => $msgs ] );
     }
 
     public function ajax_inbox_sidebar() {
-        check_ajax_referer( 'wai_nonce', 'nonce' );
+        check_ajax_referer( 'wabmh_nonce', 'nonce' );
         if ( ! current_user_can( 'manage_options' ) ) wp_send_json_error( [], 403 );
 
-        $contacts = WAI_Inbox::get_contacts();
+        $contacts = WABMH_Inbox::get_contacts();
         if ( empty( $contacts ) ) {
             wp_send_json_success( [ 'html' => '' ] );
         }
 
         ob_start();
         foreach ( $contacts as $contact ) :
-            $norm     = WAI_Inbox::normalize_phone( $contact->phone );
+            $norm     = WABMH_Inbox::normalize_phone( $contact->phone );
             $initials = strtoupper( substr( $norm, -2 ) );
             $preview  = mb_strimwidth( $contact->last_message, 0, 38, '…' );
             $time     = human_time_diff( strtotime( $contact->last_message_time ), current_time( 'timestamp' ) ) . ' ago';
             $dir_icon = ( 'received' === $contact->last_status ) ? '↙' : '↗';
         ?>
-            <li class="wai-contact-item"
+            <li class="wabmh-contact-item"
                 data-phone="<?php echo esc_attr( $norm ); ?>"
                 data-search="<?php echo esc_attr( $norm ); ?>">
-                <div class="wai-contact-avatar"><?php echo esc_html( $initials ); ?></div>
-                <div class="wai-contact-info">
-                    <div class="wai-contact-top">
-                        <span class="wai-contact-phone"><?php echo esc_html( $norm ); ?></span>
-                        <span class="wai-contact-time"><?php echo esc_html( $time ); ?></span>
+                <div class="wabmh-contact-avatar"><?php echo esc_html( $initials ); ?></div>
+                <div class="wabmh-contact-info">
+                    <div class="wabmh-contact-top">
+                        <span class="wabmh-contact-phone"><?php echo esc_html( $norm ); ?></span>
+                        <span class="wabmh-contact-time"><?php echo esc_html( $time ); ?></span>
                     </div>
-                    <div class="wai-contact-preview">
-                        <span class="wai-dir"><?php echo esc_html( $dir_icon ); ?></span>
+                    <div class="wabmh-contact-preview">
+                        <span class="wabmh-dir"><?php echo esc_html( $dir_icon ); ?></span>
                         <?php echo esc_html( $preview ); ?>
                         <?php if ( $contact->unread > 0 ) : ?>
-                            <span class="wai-badge"><?php echo (int) $contact->unread; ?></span>
+                            <span class="wabmh-badge"><?php echo (int) $contact->unread; ?></span>
                         <?php endif; ?>
                     </div>
                 </div>

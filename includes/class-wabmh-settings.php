@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Manages plugin settings (API credentials).
  */
-class WAI_Settings {
+class WABMH_Settings {
 
     private static $instance = null;
 
@@ -22,45 +22,45 @@ class WAI_Settings {
 
     /**
      * Auto-generate a verify token if one doesn't exist yet.
-     * If WAI_WEBHOOK_VERIFY_TOKEN is defined in wp-config.php, that value
+     * If WABMH_WEBHOOK_VERIFY_TOKEN is defined in wp-config.php, that value
      * is always used and kept in sync with the DB.
      */
     public function ensure_verify_token() {
-        $opts = get_option( WAI_OPTION_KEY, [] );
+        $opts = get_option( WABMH_OPTION_KEY, [] );
 
         // If a token is defined as a constant (e.g. in wp-config.php), always use it.
-        if ( defined( 'WAI_WEBHOOK_VERIFY_TOKEN' ) && WAI_WEBHOOK_VERIFY_TOKEN !== '' ) {
-            if ( ( $opts['webhook_verify_token'] ?? '' ) !== WAI_WEBHOOK_VERIFY_TOKEN ) {
-                $opts['webhook_verify_token'] = WAI_WEBHOOK_VERIFY_TOKEN;
-                update_option( WAI_OPTION_KEY, $opts );
+        if ( defined( 'WABMH_WEBHOOK_VERIFY_TOKEN' ) && WABMH_WEBHOOK_VERIFY_TOKEN !== '' ) {
+            if ( ( $opts['webhook_verify_token'] ?? '' ) !== WABMH_WEBHOOK_VERIFY_TOKEN ) {
+                $opts['webhook_verify_token'] = WABMH_WEBHOOK_VERIFY_TOKEN;
+                update_option( WABMH_OPTION_KEY, $opts );
             }
             return;
         }
 
         if ( empty( $opts['webhook_verify_token'] ) ) {
             $opts['webhook_verify_token'] = wp_generate_password( 24, false );
-            update_option( WAI_OPTION_KEY, $opts );
+            update_option( WABMH_OPTION_KEY, $opts );
         }
     }
 
     /**
      * Regenerate the verify token and save it.
-     * Has no effect if WAI_WEBHOOK_VERIFY_TOKEN constant is defined.
+     * Has no effect if WABMH_WEBHOOK_VERIFY_TOKEN constant is defined.
      */
     public static function regenerate_verify_token() {
-        if ( defined( 'WAI_WEBHOOK_VERIFY_TOKEN' ) && WAI_WEBHOOK_VERIFY_TOKEN !== '' ) {
-            return WAI_WEBHOOK_VERIFY_TOKEN;
+        if ( defined( 'WABMH_WEBHOOK_VERIFY_TOKEN' ) && WABMH_WEBHOOK_VERIFY_TOKEN !== '' ) {
+            return WABMH_WEBHOOK_VERIFY_TOKEN;
         }
-        $opts = get_option( WAI_OPTION_KEY, [] );
+        $opts = get_option( WABMH_OPTION_KEY, [] );
         $opts['webhook_verify_token'] = wp_generate_password( 24, false );
-        update_option( WAI_OPTION_KEY, $opts );
+        update_option( WABMH_OPTION_KEY, $opts );
         return $opts['webhook_verify_token'];
     }
 
     public function register_settings() {
         register_setting(
-            'wai_settings_group',
-            WAI_OPTION_KEY,
+            'wabmh_settings_group',
+            WABMH_OPTION_KEY,
             [ 'sanitize_callback' => [ $this, 'sanitize_settings' ] ]
         );
     }
@@ -95,7 +95,7 @@ class WAI_Settings {
     // ------------------------------------------------------------------ //
 
     public static function get( $key = null ) {
-        $options = get_option( WAI_OPTION_KEY, [] );
+        $options = get_option( WABMH_OPTION_KEY, [] );
         if ( $key ) {
             return $options[ $key ] ?? '';
         }
@@ -114,6 +114,6 @@ class WAI_Settings {
         if ( ! self::is_configured() ) {
             return null;
         }
-        return new WAI_API( self::get( 'access_token' ), self::get( 'phone_number_id' ), self::get( 'app_secret' ) );
+        return new WABMH_API( self::get( 'access_token' ), self::get( 'phone_number_id' ), self::get( 'app_secret' ) );
     }
 }

@@ -1,0 +1,33 @@
+/* Business Messaging Hub — Webhook Log page styles */
+
+.wabmh-wh-summary { max-width:280px; }
+.wabmh-wh-meta    { display:block; font-size:.8rem; color:var(--wabmh-muted); margin-top:3px; }
+.wabmh-wh-text    { font-size:.85rem; color:var(--wabmh-text); margin-top:4px; font-style:italic; }
+.wabmh-badge--delivered { background:#d0eeff; color:#0a5a8a; }
+.wabmh-badge--read      { background:#e8d5f5; color:#5a0a8a; }
+
+/* Reuse modal styles from log.php */
+#wabmh-modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,.55);
+    z-index:99999; display:flex; align-items:center; justify-content:center;
+}
+#wabmh-modal {
+    background:#fff; border-radius:10px; width:700px;
+    max-width:95vw; max-height:80vh; display:flex;
+    flex-direction:column; box-shadow:0 8px 32px rgba(0,0,0,.22);
+}
+#wabmh-modal-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 20px; border-bottom:1px solid var(--wabmh-border); font-size:1rem;
+}
+#wabmh-modal-close {
+    background:none; border:1px solid #ccc; border-radius:5px;
+    padding:3px 10px; font-size:.85rem; cursor:pointer; color:var(--wabmh-muted);
+}
+#wabmh-modal-close:hover { color:var(--wabmh-red); border-color:var(--wabmh-red); }
+#wabmh-modal-body {
+    padding:16px 20px; overflow-y:auto; font-size:.82rem;
+    background:#1e1e1e; color:#d4d4d4; border-radius:0 0 10px 10px;
+    margin:0; white-space:pre-wrap; word-break:break-word; flex:1;
+}
+.wabmh-log-row.wabmh-hidden { display:none; }

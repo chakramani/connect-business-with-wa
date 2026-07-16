@@ -1,0 +1,19 @@
+/* Business Messaging Hub — Settings page styles */
+
+.wabmh-register-box {
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 16px;
+	margin-top: 10px;
+}
+
+.wabmh-inline-result.success {
+	color: #2a7a2a;
+	font-weight: 600;
+}
+
+.wabmh-inline-result.error {
+	color: #c0392b;
+	font-weight: 600;
+}

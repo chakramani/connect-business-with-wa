@@ -66,7 +66,7 @@ Go to **WA Business → Send Message**, enter the recipient's number in E.164 fo
 You can send messages programmatically from your theme or another plugin:
 
 `
-$result = WAI_Messenger::send( '+977980XXXXXXX', 'Hello from WordPress!' );
+$result = WABMH_Messenger::send( '+977980XXXXXXX', 'Hello from WordPress!' );
 if ( is_wp_error( $result ) ) {
     error_log( $result->get_error_message() );
 }
@@ -105,6 +105,32 @@ WordPress 5.8 or higher. Tested up to WordPress 6.8.
 = Which version of PHP is required? =
 
 PHP 7.4 or higher.
+
+== External services ==
+
+This plugin connects to Meta's WhatsApp Business Platform to send and receive messages. Because that platform is provided by a third party (Meta Platforms, Inc.), the details of what is sent, when, and how to control it are documented below for every external service the plugin uses.
+
+= Meta Graph API / Facebook Graph API =
+
+The plugin uses Meta's Graph API (`https://graph.facebook.com/`) as the underlying transport for all WhatsApp Business Cloud API calls — Graph API and the WhatsApp Cloud API are the same Meta platform, addressed through the same endpoint family.
+
+* **Purpose:** Authenticates the plugin's requests, sends outgoing WhatsApp messages, checks/registers/deregisters the connected business phone number, and retrieves phone-number status and quality-rating information.
+* **What data is sent:** Your WhatsApp Business access token and app secret (for authentication); the connected Phone Number ID; the recipient's phone number and message text for each message you send from Send Message, Dashboard Quick Send, the Inbox, or the frontend chat widget; and the 6-digit PIN you enter when registering/deregistering the phone number.
+* **When data is sent:** Only when you actively use a feature that requires it — clicking Test Connection, sending a message, checking phone status, or registering/deregistering the number. No data is sent to Meta automatically or on a schedule.
+* **Can users disable it:** Yes. The plugin performs no Graph API requests until you save Business Cloud API credentials on the Settings page. If you deactivate the plugin or remove your credentials, no further requests are made. There is no way to use the plugin's core messaging features without this connection, since it is the plugin's core purpose.
+* **Terms of Service:** https://www.facebook.com/terms
+* **Privacy Policy:** https://www.facebook.com/privacy/policy/
+
+= WhatsApp Cloud API (Webhooks) =
+
+In addition to the outbound calls above, Meta's WhatsApp Cloud API sends data *to* your site via a webhook that this plugin registers at `wp-json/wabmh/v1/webhook`.
+
+* **Purpose:** Delivers incoming customer messages and delivery/read status updates for messages you've sent, so the Inbox, Message Log, and Auto-reply Bot can react to them in real time.
+* **What data is sent:** Meta sends the incoming message content, the sender's phone number, message IDs (wamid), and delivery/read status events to your site's webhook endpoint. This is inbound data *from* Meta to your site, not data your site sends elsewhere.
+* **When data is sent:** Whenever a customer messages your connected WhatsApp number, or whenever the status of a message you sent changes (sent/delivered/read/failed) — entirely driven by Meta's platform, not by a schedule this plugin controls.
+* **Can users disable it:** Yes. The webhook only receives data if you complete the setup on the Webhook page and register the callback URL with Meta. Removing the webhook subscription in Meta's App Dashboard, or deactivating the plugin, stops all incoming data.
+* **Terms of Service:** https://www.whatsapp.com/legal/business-terms/
+* **Privacy Policy:** https://www.whatsapp.com/legal/privacy-policy
 
 == Screenshots ==
 

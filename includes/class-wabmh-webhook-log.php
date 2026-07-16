@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Stores raw incoming webhook events in a separate DB table.
  */
-class WAI_Webhook_Log {
+class WABMH_Webhook_Log {
 
     public static function table_name() {
         global $wpdb;
-        return $wpdb->prefix . 'wai_webhook_log';
+        return $wpdb->prefix . 'wabmh_webhook_log';
     }
 
     public static function create_table() {
@@ -68,5 +68,45 @@ class WAI_Webhook_Log {
         $table = self::table_name();
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, no core API equivalent; $table is a fixed internal value, not user input.
         return $wpdb->get_results( "SELECT event_type, COUNT(*) AS total FROM $table GROUP BY event_type" );
+    }
+
+    /**
+     * Check whether a status_update event for this wamid + status has
+     * already been recorded, to guard against Meta re-delivering the same
+     * webhook event (replay / retry) and processing it twice.
+     */
+    public static function status_event_exists( $wamid, $status ) {
+        global $wpdb;
+        if ( empty( $wamid ) ) {
+            return false;
+        }
+        $table = self::table_name();
+        $like  = '%' . $wpdb->esc_like( '"status":"' . $status . '"' ) . '%';
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, values passed through wpdb->prepare().
+        $count = $wpdb->get_var( $wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE wamid = %s AND event_type = 'status_update' AND summary LIKE %s",
+            $wamid,
+            $like
+        ) );
+        return ! empty( $count );
+    }
+
+    /**
+     * Check whether an incoming_message event for this wamid has already
+     * been recorded (replay / retry protection).
+     */
+    public static function wamid_exists( $wamid, $event_type ) {
+        global $wpdb;
+        if ( empty( $wamid ) ) {
+            return false;
+        }
+        $table = self::table_name();
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, values passed through wpdb->prepare().
+        $count = $wpdb->get_var( $wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE wamid = %s AND event_type = %s",
+            $wamid,
+            $event_type
+        ) );
+        return ! empty( $count );
     }
 }

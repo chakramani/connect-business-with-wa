@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * High-level façade for sending messages + logging the result.
  */
-class WAI_Messenger {
+class WABMH_Messenger {
 
     /**
      * Send a text message and log the attempt.
@@ -15,9 +15,9 @@ class WAI_Messenger {
      * @return true|WP_Error
      */
     public static function send( $to, $message, $sent_by = 0 ) {
-        $api = WAI_Settings::api();
+        $api = WABMH_Settings::api();
         if ( ! $api ) {
-            return new WP_Error( 'wai_not_configured', __( 'WhatsApp API is not configured.', 'business-messaging-hub' ) );
+            return new WP_Error( 'wabmh_not_configured', __( 'WhatsApp API is not configured.', 'business-messaging-hub' ) );
         }
 
         $result = $api->send_text( $to, $message );
@@ -25,7 +25,7 @@ class WAI_Messenger {
         $status  = is_wp_error( $result ) ? 'failed'  : 'sent';
         $message_id = ! is_wp_error( $result ) ? ( $result['messages'][0]['id'] ?? '' ) : '';
 
-        WAI_Log::insert( [
+        WABMH_Log::insert( [
             'recipient'  => $to,
             'message'    => $message,
             'status'     => $status,

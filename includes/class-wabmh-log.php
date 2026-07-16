@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Stores and retrieves message-send logs in a custom DB table.
  */
-class WAI_Log {
+class WABMH_Log {
 
     public static function table_name() {
         global $wpdb;
-        return $wpdb->prefix . 'wai_message_log';
+        return $wpdb->prefix . 'wabmh_message_log';
     }
 
     public static function create_table() {

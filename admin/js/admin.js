@@ -1,4 +1,4 @@
-/* global wai, jQuery */
+/* global wabmh, jQuery */
 (function ($) {
     'use strict';
 
@@ -6,7 +6,7 @@
        Utility: show result message inside a container
     --------------------------------------------------------------- */
     function showResult($container, isSuccess, message) {
-        var cls = isSuccess ? 'wai-result-success' : 'wai-result-error';
+        var cls = isSuccess ? 'wabmh-result-success' : 'wabmh-result-error';
         $container
             .html('<div class="' + cls + '">' + $('<div>').text(message).html() + '</div>')
             .show();
@@ -18,29 +18,29 @@
     /* ---------------------------------------------------------------
        Send message (shared by dashboard quick-send + send page)
     --------------------------------------------------------------- */
-    $(document).on('click', '.wai-send-btn', function () {
+    $(document).on('click', '.wabmh-send-btn', function () {
         var $btn      = $(this);
         var toId      = $btn.data('to-field');
         var msgId     = $btn.data('msg-field');
         var to        = $('#' + toId).val().trim();
         var message   = $('#' + msgId).val().trim();
-        var $result   = $btn.closest('.wai-card').find('[id$="-result"], [id$="send-result"]').first();
+        var $result   = $btn.closest('.wabmh-card').find('[id$="-result"], [id$="send-result"]').first();
 
         if (!$result.length) {
             // Fallback to nearest sibling
-            $result = $btn.closest('.wai-card').find('div[id]').first();
+            $result = $btn.closest('.wabmh-card').find('div[id]').first();
         }
 
         if (!to || !message) {
-            showResult($result, false, wai.i18n.error_empty);
+            showResult($result, false, wabmh.i18n.error_empty);
             return;
         }
 
-        $btn.prop('disabled', true).text(wai.i18n.sending);
+        $btn.prop('disabled', true).text(wabmh.i18n.sending);
 
-        $.post(wai.ajax_url, {
-            action:  'wai_send_message',
-            nonce:   wai.nonce,
+        $.post(wabmh.ajax_url, {
+            action:  'wabmh_send_message',
+            nonce:   wabmh.nonce,
             to:      to,
             message: message
         })
@@ -57,23 +57,23 @@
             showResult($result, false, 'Network error. Please try again.');
         })
         .always(function () {
-            $btn.prop('disabled', false).text(wai.i18n.send);
+            $btn.prop('disabled', false).text(wabmh.i18n.send);
         });
     });
 
     /* ---------------------------------------------------------------
        Test Connection
     --------------------------------------------------------------- */
-    $('#wai-test-connection').on('click', function () {
+    $('#wabmh-test-connection').on('click', function () {
         var $btn    = $(this);
-        var $result = $('#wai-test-result');
+        var $result = $('#wabmh-test-result');
 
-        $btn.prop('disabled', true).text(wai.i18n.testing);
+        $btn.prop('disabled', true).text(wabmh.i18n.testing);
         $result.text('').removeClass('success error');
 
-        $.post(wai.ajax_url, {
-            action: 'wai_test_connection',
-            nonce:  wai.nonce
+        $.post(wabmh.ajax_url, {
+            action: 'wabmh_test_connection',
+            nonce:  wabmh.nonce
         })
         .done(function (response) {
             if (response.success) {
@@ -86,14 +86,14 @@
             $result.addClass('error').text('❌ Network error.');
         })
         .always(function () {
-            $btn.prop('disabled', false).text(wai.i18n.test);
+            $btn.prop('disabled', false).text(wabmh.i18n.test);
         });
     });
 
     /* ---------------------------------------------------------------
        Toggle password visibility
     --------------------------------------------------------------- */
-    $(document).on('click', '.wai-toggle-visibility', function () {
+    $(document).on('click', '.wabmh-toggle-visibility', function () {
         var targetId = $(this).data('target');
         var $input   = $('#' + targetId);
         var type     = $input.attr('type') === 'password' ? 'text' : 'password';
@@ -105,22 +105,22 @@
        Character counter on send page
     --------------------------------------------------------------- */
     function updateCharCount() {
-        var $msg = $('#wai-message');
+        var $msg = $('#wabmh-message');
         if (!$msg.length) return;
         var remaining = 4096 - $msg.val().length;
-        $('#wai-char-left').text(remaining);
+        $('#wabmh-char-left').text(remaining);
     }
 
-    $('#wai-message').on('input', updateCharCount);
+    $('#wabmh-message').on('input', updateCharCount);
     updateCharCount();
 
     /* ---------------------------------------------------------------
        Clear button on send page
     --------------------------------------------------------------- */
-    $('#wai-clear-btn').on('click', function () {
-        $('#wai-to').val('');
-        $('#wai-message').val('');
-        $('#wai-send-result').hide().empty();
+    $('#wabmh-clear-btn').on('click', function () {
+        $('#wabmh-to').val('');
+        $('#wabmh-message').val('');
+        $('#wabmh-send-result').hide().empty();
         updateCharCount();
     });
 
